@@ -1,6 +1,14 @@
 class DragonTypesController < ApplicationController
   def new; end
 
+  def index
+    @dragon_type = DragonType.all
+  end
+
+  def show
+    @dragon_type = DragonType.find(params[:id])
+  end
+
   def create
     # render plain: params[:dragon_types].inspect
     # @dragon_type = DragonType.new(params[:dragon_types])
