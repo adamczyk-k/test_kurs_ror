@@ -4,6 +4,6 @@ class DragonTypesController < ApplicationController
   end
 
   def create
-    # render plain: params[:dragon_types].inspect
+    render plain: params[:dragon_types].inspect
   end
 end
