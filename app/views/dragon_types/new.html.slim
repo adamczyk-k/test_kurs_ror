@@ -1,0 +1,13 @@
+h1 Hello, some day you'll see dragons here!
+div For now you can check this awesome form:
+= form_with scope: :dragon_types, url: dragon_types_path, local: true do |dragon|
+  p
+    = dragon.label :"Set new dragon's type:"
+    br
+    = dragon.text_field :title
+  p
+    = dragon.label :"Set description:"
+    br
+    = dragon.text_area :text
+  p
+    = dragon.submit

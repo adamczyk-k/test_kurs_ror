@@ -262,6 +262,7 @@ DEPENDENCIES
   rails (~> 5.2.1)
   rubocop
   sass-rails (~> 5.0)
+  slim
   slim-rails
   spring
   spring-watcher-listen (~> 2.0.0)
