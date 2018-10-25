@@ -1,0 +1,22 @@
+h1 Edit article
+= form_with(model: @dragon_type, local: true) do |dragon|
+  - if @dragon_type.errors.any?
+    #error_explanation
+      h2
+        = pluralize(@dragon_type.errors.count, "error")
+        | prohibited
+        | this article from being saved:
+      ul
+        - @dragon_type.errors.full_messages.each do |msg|
+          li= msg
+  p
+    = dragon.label :name
+    br
+    = dragon.text_field :name
+  p
+    = dragon.label :description
+    br
+    = dragon.text_area :description
+  p
+    = dragon.submit
+= link_to 'Back', dragon_type_path
