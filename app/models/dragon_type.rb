@@ -1,0 +1,2 @@
+class DragonType < ApplicationRecord
+end
