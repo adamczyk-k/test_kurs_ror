@@ -1,5 +1,7 @@
 class DragonTypesController < ApplicationController
-  def new; end
+  def new
+    @dragon_type = DragonType.new
+  end
 
   def index
     @dragon_type = DragonType.all
@@ -17,18 +19,28 @@ class DragonTypesController < ApplicationController
     # render plain: params[:dragon_types].inspect
     # @dragon_type = DragonType.new(params[:dragon_types])
     @dragon_type = DragonType.new(dragon_type_params)
-    @dragon_type.save
-    redirect_to @dragon_type
+    if @dragon_type.save
+      redirect_to @dragon_type
+    else
+      render 'new'
+    end
   end
 
   def update
     @dragon_type = DragonType.find(params[:id])
-
-    if @dragon_type.update(dragon_type_params)
+    render plain: params[:dragon_types].inspect
+    /if @dragon_type.update(dragon_type_params)
       redirect_to @dragon_type
     else
       render 'edit'
-    end
+    end/
+  end
+
+  def destroy
+    @dragon_type = DragonType.find(params[:id])
+    @dragon_type.destroy
+
+    redirect_to dragon_types_path
   end
 
   private
