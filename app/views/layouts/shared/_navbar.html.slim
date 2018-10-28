@@ -1,22 +1,17 @@
 nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
-    ul.navbar-nav
-      li.nav-link
-        - if user_signed_in?
-        | Logged in as
-        strong= current_user.email
-      li.nav-item
+  ul.navbar-nav
+    li.nav-item
       a.nav-link href=dragon_types_path
         | Dragon types
-      li.nav-item
-      a.nav-link href=edit_user_registration_path
-        | Edit profile
-
-    /= link_to 'Dragon types', dragon_types_path, :class => 'navbar-link'
-    /br
-    /= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link'
-    /br
-    /| #{link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'}
-    /- else
-    / = link_to "Sign up", new_user_registration_path, :class => 'navbar-link'
-    /br
-    /| #{link_to "Login", new_user_session_path, :class => 'navbar-link'}
+    li.nav-item
+      - if user_signed_in?
+        a.nav-link.enabled data-method='get' href=user_root_path User panel
+    li.nav-item
+      - if not user_signed_in?
+        a.nav-link.enabled data-method='get' href=new_user_registration_path Sign up
+    li.nav-item
+      - if not user_signed_in?
+        a.nav-link.enabled data-method='get' href=new_user_session_path Login
+    li.nav-item
+      - if user_signed_in?
+        a.nav-link.disabled data-method='delete' href=destroy_user_session_path Logout
