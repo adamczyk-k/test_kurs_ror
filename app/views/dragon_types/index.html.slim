@@ -9,7 +9,3 @@ table
       td= dragon.name
       td= dragon.description
       td= link_to 'Show', dragon_type_path(dragon)
-      td= link_to 'Edit', edit_dragon_type_path(dragon)
-      td= link_to 'Destroy', dragon_type_path(dragon),
-              method: :delete,
-              data: { confirm: 'Are you sure?' }
