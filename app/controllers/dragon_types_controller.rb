@@ -1,5 +1,4 @@
 class DragonTypesController < ApplicationController
-
   def index
     @dragon_type = DragonType.all
   end
