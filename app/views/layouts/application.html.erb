@@ -10,6 +10,9 @@
   </head>
 
   <body>
-    <%= yield %>
+    <%= render partial: 'layouts/shared/navbar' %>
+    <div style="width: 1000px; margin: 50px auto">
+      <%= yield %>
+    </div>
   </body>
 </html>

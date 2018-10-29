@@ -1,0 +1,11 @@
+h1 Listing all dragon types
+table
+  tr
+    th Dragon type
+    th Description
+    th
+  - @dragon_type.each do |dragon|
+    tr
+      td= dragon.name
+      td= dragon.description
+      td= link_to 'Show', dragon_type_path(dragon)

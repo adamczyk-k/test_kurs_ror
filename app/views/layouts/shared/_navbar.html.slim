@@ -1,0 +1,20 @@
+nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+  ul.navbar-nav
+    li.nav-item
+      a.nav-link href=dragon_types_path
+        | Dragon types
+    li.nav-item
+      a.nav-link href=resource_types_path
+        | Resource types
+    li.nav-item
+      - if user_signed_in?
+        a.nav-link.enabled data-method='get' href=user_root_path User panel
+    li.nav-item
+      - if not user_signed_in?
+        a.nav-link.enabled data-method='get' href=new_user_registration_path Sign up
+    li.nav-item
+      - if not user_signed_in?
+        a.nav-link.enabled data-method='get' href=new_user_session_path Login
+    li.nav-item
+      - if user_signed_in?
+        a.nav-link.disabled data-method='delete' href=destroy_user_session_path Logout
