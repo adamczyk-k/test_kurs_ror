@@ -4,9 +4,11 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   get 'welcome/index'
   get 'dragon/new'
+  get 'resource/new'
   root 'welcome#index'
 
   resources :dragon_types
+  resources :resource_types
 
   namespace :user do
     root to: 'profile#index'
