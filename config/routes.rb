@@ -2,10 +2,10 @@ Rails.application.routes.draw do
   devise_for :users
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-  get 'welcome/index'
   get 'dragon/new'
   get 'resource/new'
-  root 'welcome#index'
+  get 'dragon_types/index'
+  root 'dragon_types#index'
 
   resources :dragon_types
   resources :resource_types
