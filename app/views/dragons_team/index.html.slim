@@ -1,0 +1,9 @@
+= link_to root_path do
+  strong Back to main page
+
+h3
+  = "#{@user.email}'s dragons:"
+ul
+  - @dragon.each do |dragon|
+    li
+      = "#{dragon.name} (#{dragon.dragon_type.name})"
