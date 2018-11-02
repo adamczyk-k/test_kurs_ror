@@ -1,7 +1,8 @@
 class DragonsTeamController < ApplicationController
   def index
-    @user = current_user
-    @dragon = Dragon.where(user: @user.id)
+    @view_model = UserHomePageViewModel.new
+    # @user = current_user
+    # @dragon = Dragon.where(user: @user.id)
   end
 
   def show; end

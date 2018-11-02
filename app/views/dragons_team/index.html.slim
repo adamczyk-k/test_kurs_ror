@@ -2,8 +2,13 @@
   strong Back to main page
 
 h3
-  = "#{@user.email}'s dragons:"
+  = "#{@view_model.current_user.email}'s dragons:"
 ul
-  - @dragon.each do |dragon|
+  - @view_model.dragons_team.each do |dragon|
+    .col-sm-4
+      p
+        a href=dragons_team_path(dragon)
+          = "#{dragon.name} (#{dragon.dragon_type.name})"
+  /- @dragon.each do |dragon|
     li
       = "#{dragon.name} (#{dragon.dragon_type.name})"
