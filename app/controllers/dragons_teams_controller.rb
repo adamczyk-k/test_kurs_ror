@@ -1,4 +1,4 @@
-class DragonsTeamController < ApplicationController
+class DragonsTeamsController < ApplicationController
   def index
     @view_model = UserHomePageViewModel.new
     # @user = current_user
