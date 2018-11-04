@@ -34,9 +34,11 @@ class DragonsTeamsController < ApplicationController
   end
 
   def destroy
-    @dragon_type = Dragon.find(params[:id])
-    @dragon_type.destroy
-    render 'index'
+    @view_model = UserHomePageViewModel.new
+    @user = @view_model.current_user
+    @dragon = Dragon.find(params[:id])
+    @dragon.destroy
+    redirect_to dragons_teams_index_path(@user.id)
   end
 
   private
