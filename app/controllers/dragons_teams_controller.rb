@@ -17,12 +17,15 @@ class DragonsTeamsController < ApplicationController
   def create
     @view_model = UserHomePageViewModel.new
     @user = @view_model.current_user
-    # render plain: params[:dragons_team].inspect
-    @dragon = @user.dragons.build(dragon_params)
-    if @dragon.save
+    if @user.dragons.count >= 5
       render 'index'
     else
-      puts @dragon.errors.full_messages
+      @dragon = @user.dragons.build(dragon_params)
+      if @dragon.save
+        render 'index'
+      else
+        puts @dragon.errors.full_messages
+      end
     end
   end
 
