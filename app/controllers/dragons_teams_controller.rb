@@ -5,7 +5,11 @@ class DragonsTeamsController < ApplicationController
     # @dragon = Dragon.where(user: @user.id)
   end
 
-  def show; end
+  def show
+    @view_model = UserHomePageViewModel.new
+    @user = current_user
+    @dragon = @user.dragons.find(params[:id])
+  end
 
   def new
     @view_model = UserHomePageViewModel.new
@@ -27,6 +31,12 @@ class DragonsTeamsController < ApplicationController
         puts @dragon.errors.full_messages
       end
     end
+  end
+
+  def destroy
+    @dragon_type = Dragon.find(params[:id])
+    @dragon_type.destroy
+    render 'index'
   end
 
   private
