@@ -1,8 +1,6 @@
 class DragonsTeamsController < ApplicationController
   def index
     @view_model = UserHomePageViewModel.new
-    # @user = current_user
-    # @dragon = Dragon.where(user: @user.id)
   end
 
   def show
@@ -24,12 +22,7 @@ class DragonsTeamsController < ApplicationController
     if @user.dragons.count >= 5
       render 'index'
     else
-      @dragon = @user.dragons.build(dragon_params)
-      if @dragon.save
-        render 'index'
-      else
-        puts @dragon.errors.full_messages
-      end
+      add_dragon
     end
   end
 
@@ -42,6 +35,15 @@ class DragonsTeamsController < ApplicationController
   end
 
   private
+
+  def add_dragon
+    @dragon = @user.dragons.build(dragon_params)
+    if @dragon.save
+      render 'index'
+    else
+      puts @dragon.errors.full_messages
+    end
+  end
 
   def dragon_params
     params.require(:dragons_team).permit(:name, :level, :dragon_type_id, :description)

@@ -2,8 +2,6 @@ ActiveAdmin.register Dragon do
   permit_params :name, :user_id, :dragon_type_id, :level, :description
 
   form do |dragon|
-    dragon.semantic_errors *dragon.object.errors.keys
-
     dragon.inputs 'Details' do
       dragon.input :name
       dragon.input :user_id, as: :select, collection: User.all.collect { |user| [user.email, user.id] }
