@@ -1,0 +1,26 @@
+h1 Hello, some day you'll see dragons here!
+div For now you can check this awesome form:
+= form_with scope: :dragons_team, url: dragons_teams_path, local: true do |dragon|
+  p
+    = dragon.label :"Set new dragon's name:"
+    br
+    = dragon.text_field :name
+  p
+    = dragon.label :"The starting level is:"
+    br
+    = dragon.number_field :level
+  p
+    = dragon.label :"Choose type:"
+    br
+    = dragon.select :dragon_type_id, collection: DragonType.all.collect { |dragontype| [dragontype.name, dragontype.id] }
+    /= dragon.select :dragon_type_id, options_for_select(DragonType.all.map {|dragontype| "#{dragontype.name}; #{dragontype.id}"})
+    /= dragon.select :dragon_type_id, options_for_select()
+    /= dragon.select :dragon_type_id, options_from_collection_for_select(DragonType.all { |dragontype| [dragontype.name, dragontype.id] }, :params, "name")
+    /= dragon.select :dragon_type_id, options_from_collection_for_select(DragonType.all, "id", "name")
+  p
+    = dragon.label :"Set description:"
+    br
+    = dragon.text_area :description
+  p
+    = dragon.submit
+  = link_to 'Back', root_path

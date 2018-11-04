@@ -5,5 +5,4 @@ class UserHomePageViewModel
     @user = current_user
     @dragon = Dragon.where(user: @user.id)
   end
-
 end
