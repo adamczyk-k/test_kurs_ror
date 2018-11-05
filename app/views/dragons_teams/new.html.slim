@@ -4,9 +4,7 @@
     br
     = dragon.text_field :name
   p
-    = dragon.label :"The starting level is:"
-    br
-    = dragon.number_field :level
+    = dragon.hidden_field :level, value: 0
   p
     = dragon.label :"Choose type:"
     br
