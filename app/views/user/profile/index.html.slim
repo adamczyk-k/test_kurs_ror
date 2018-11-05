@@ -1,1 +1,12 @@
-h1 Panel usera
+h3
+  = "#{@view_model.current_user.email}'s dragons:"
+ul
+  - @view_model.dragons_team.each do |dragon|
+    .col-sm-4
+      p
+        a href=dragons_team_path(dragon)
+          = "#{dragon.name} (#{dragon.dragon_type.name})"
+      p
+        = link_to 'Delete', dragons_team_path(dragon),
+                method: :delete,
+                data: { confirm: 'Are you sure?' }
