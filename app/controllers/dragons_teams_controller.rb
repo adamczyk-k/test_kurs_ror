@@ -17,19 +17,17 @@ class DragonsTeamsController < ApplicationController
   end
 
   def create
-    @view_model = UserHomePageViewModel.new
     if current_user.dragons.count >= 5
-      render 'index'
+      redirect_to dragons_teams_index_path(current_user.id)
     else
       add_dragon
     end
   end
 
   def destroy
-    @user = current_user
     @dragon = Dragon.find(params[:id])
     @dragon.destroy
-    redirect_to dragons_teams_index_path(@user.id)
+    redirect_to dragons_teams_index_path(current_user.id)
   end
 
   private
