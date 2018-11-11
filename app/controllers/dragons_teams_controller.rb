@@ -18,7 +18,7 @@ class DragonsTeamsController < ApplicationController
 
   def create
     if current_user.dragons.count >= 5
-      flash[:alert] = "You can't add more dragons";
+      flash[:alert] = "You can't add more dragons"
       redirect_to dragons_teams_index_path(current_user.id)
     else
       add_dragon
