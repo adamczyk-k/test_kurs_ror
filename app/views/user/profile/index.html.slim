@@ -10,3 +10,15 @@ ul
         = link_to 'Delete', dragons_team_path(dragon),
                 method: :delete,
                 data: { confirm: 'Are you sure?' }
+
+h3
+  = "Resources:"
+ul
+  - @current_user.resources.each do |resource|
+    .col-sm-6
+	  p
+	    a href=resource_path(resource)
+          = "#{resource.resource_type.name}: #{resource.quantity}"
+  
+  
+      

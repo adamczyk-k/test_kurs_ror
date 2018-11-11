@@ -1,0 +1,12 @@
+p
+  strong Name:
+  = @resource.resource_type.name
+p
+  strong Quantity:
+  = @resource.quantity
+p
+  strong Description:
+  = @resource.resource_type.description
+br
+  = link_to 'Edit', edit_resource_path(@resource)
+  = link_to 'Back', resources_path(@resource)

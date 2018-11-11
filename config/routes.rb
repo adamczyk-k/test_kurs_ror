@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'dragons_teams/index'
   devise_for :users
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
@@ -7,10 +6,12 @@ Rails.application.routes.draw do
   get 'resource/new'
   get 'dragon_types/index'
   get 'dragons_teams/index'
+  get 'resources/index'
   root 'dragon_types#index'
 
   resources :dragons_teams
   resources :dragon_types
+  resources :resources
   resources :resource_types
 
   namespace :user do

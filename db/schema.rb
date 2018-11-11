@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_02_111421) do
+ActiveRecord::Schema.define(version: 2018_11_05_232328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,16 @@ ActiveRecord::Schema.define(version: 2018_11_02_111421) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "resources", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "resource_type_id"
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["resource_type_id"], name: "index_resources_on_resource_type_id"
+    t.index ["user_id"], name: "index_resources_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -81,4 +91,6 @@ ActiveRecord::Schema.define(version: 2018_11_02_111421) do
 
   add_foreign_key "dragons", "dragon_types"
   add_foreign_key "dragons", "users"
+  add_foreign_key "resources", "resource_types"
+  add_foreign_key "resources", "users"
 end
