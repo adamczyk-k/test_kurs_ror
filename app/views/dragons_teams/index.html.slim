@@ -2,7 +2,7 @@
   strong Back to main page
 
 h3
-  = "#{@view_model.current_user.email}'s dragons:"
+  = "#{current_user.email}'s dragons:"
 ul
   - @view_model.dragons_team.each do |dragon|
     .col-sm-4

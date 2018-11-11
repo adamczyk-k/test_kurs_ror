@@ -3,7 +3,7 @@ class User
     before_action :authenticate_user!
 
     def index
-      @view_model = @view_model = UserHomePageViewModel.new
+      @view_model = UserHomePageViewModel.new
     end
   end
 end

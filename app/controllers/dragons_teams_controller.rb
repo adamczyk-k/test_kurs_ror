@@ -11,15 +11,14 @@ class DragonsTeamsController < ApplicationController
 
   def new
     @view_model = UserHomePageViewModel.new
-    @user = @view_model.current_user
+    @user = current_user
     @dragon = Dragon.new
     # @dragon = current_user.dragon.build
   end
 
   def create
     @view_model = UserHomePageViewModel.new
-    @user = @view_model.current_user
-    if @user.dragons.count >= 5
+    if current_user.dragons.count >= 5
       render 'index'
     else
       add_dragon
@@ -27,8 +26,7 @@ class DragonsTeamsController < ApplicationController
   end
 
   def destroy
-    @view_model = UserHomePageViewModel.new
-    @user = @view_model.current_user
+    @user = current_user
     @dragon = Dragon.find(params[:id])
     @dragon.destroy
     redirect_to dragons_teams_index_path(@user.id)
@@ -37,11 +35,11 @@ class DragonsTeamsController < ApplicationController
   private
 
   def add_dragon
-    @dragon = @user.dragons.build(dragon_params)
+    @dragon = current_user.dragons.build(dragon_params)
     if @dragon.save
       render 'index'
     else
-      puts @dragon.errors.full_messages
+      flash[:alert] = @dragon.errors.full_messages
     end
   end
 
