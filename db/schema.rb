@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_05_232328) do
+ActiveRecord::Schema.define(version: 2018_11_12_094047) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,16 @@ ActiveRecord::Schema.define(version: 2018_11_05_232328) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "dragon_costs", force: :cascade do |t|
+    t.bigint "dragon_type_id"
+    t.bigint "resource_type_id"
+    t.integer "cost"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dragon_type_id"], name: "index_dragon_costs_on_dragon_type_id"
+    t.index ["resource_type_id"], name: "index_dragon_costs_on_resource_type_id"
   end
 
   create_table "dragon_types", force: :cascade do |t|
@@ -89,6 +99,8 @@ ActiveRecord::Schema.define(version: 2018_11_05_232328) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "dragon_costs", "dragon_types"
+  add_foreign_key "dragon_costs", "resource_types"
   add_foreign_key "dragons", "dragon_types"
   add_foreign_key "dragons", "users"
   add_foreign_key "resources", "resource_types"
