@@ -5,6 +5,7 @@ class DragonTypesController < ApplicationController
 
   def show
     @dragon_type = DragonType.find(params[:id])
+    @resources = DragonCost.where(dragon_type_id: @dragon_type)
   end
 
   private
