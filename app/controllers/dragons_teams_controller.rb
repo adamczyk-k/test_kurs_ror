@@ -17,8 +17,7 @@ class DragonsTeamsController < ApplicationController
   end
 
   def create
-    if current_user.dragons.count >= 5
-      flash[:alert] = "You can't add more dragons"
+    if dragons_limit
       redirect_to dragons_teams_index_path(current_user.id)
     elsif can_afford
       add_dragon
@@ -35,6 +34,15 @@ class DragonsTeamsController < ApplicationController
 
   private
 
+  def dragons_limit
+    if current_user.dragons.count >= 5
+      flash[:alert] = "You can't add more dragons"
+      true
+    else
+      false
+    end
+  end
+
   def add_dragon
     @dragon = current_user.dragons.build(dragon_params)
     if @dragon.save
@@ -46,30 +54,34 @@ class DragonsTeamsController < ApplicationController
   end
 
   def pay_for_dragon
-    resource, user_amount = resources_amount
-    @resource = current_user.resources.find(resource.resource_type.id)
-    @resource.update_attribute(:quantity, user_amount - resource.cost)
+    resources = resources_amount
+    resources.each do |resource|
+      @resource = current_user.resources.find(resource.resource_type.id)
+      user_amount = @resource.quantity
+      @resource.update_attribute(:quantity, user_amount - resource.cost)
+    end
   end
 
   def can_afford
-    resource, user_amount = resources_amount
-    money?(user_amount, resource.cost)
+    resources = resources_amount
+    resources.each do |resource|
+      user_amount = current_user.resources.find(resource.resource_type.id).quantity
+      unless money?(user_amount, resource.cost)
+        flash[:alert] = "User has #{user_amount} of #{resource.resource_type.name}, but needs #{resource.cost}"
+        return false
+      end
+    end
+    true
   end
 
   def resources_amount
     @dragon_type = params[:dragons_team][:dragon_type_id]
     @resource_type = DragonCost.where(dragon_type_id: @dragon_type)
-    @user_cost = current_user.resources.find(@resource_type[0].resource_type.id).quantity
-    [@resource_type[0], @user_cost]
+    @resource_type
   end
 
   def money?(user_cost, resource)
-    if user_cost - resource >= 0
-      true
-    else
-      flash[:alert] = "User has #{user_cost} of #{resource_type.resource_type.name}, but needs #{@resource_type.cost}"
-      false
-    end
+    user_cost - resource >= 0
   end
 
   def dragon_params
