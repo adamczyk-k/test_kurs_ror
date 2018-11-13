@@ -56,7 +56,7 @@ class DragonsTeamsController < ApplicationController
   def pay_for_dragon
     resources = resources_amount
     resources.each do |resource|
-      @resource = current_user.resources.find(resource.resource_type.id)
+      @resource = current_user.resources.find_by(resource_type: resource.resource_type.id)
       user_amount = @resource.quantity
       @resource.update_attribute(:quantity, user_amount - resource.cost)
     end
@@ -65,9 +65,13 @@ class DragonsTeamsController < ApplicationController
   def can_afford
     resources = resources_amount
     resources.each do |resource|
-      user_amount = current_user.resources.find(resource.resource_type.id).quantity
-      unless money?(user_amount, resource.cost)
-        flash[:alert] = "User has #{user_amount} of #{resource.resource_type.name}, but needs #{resource.cost}"
+      user_amount = current_user.resources.find_by(resource_type: resource.resource_type.id)
+      unless user_amount
+        flash[:alert] = "User does not have any #{resource.resource_type.name}"
+        return false
+      end
+      unless money?(user_amount.quantity, resource.cost)
+        flash[:alert] = "User has #{user_amount.quantity} of #{resource.resource_type.name}, but needs #{resource.cost}"
         return false
       end
     end
