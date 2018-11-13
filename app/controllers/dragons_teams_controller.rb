@@ -66,14 +66,17 @@ class DragonsTeamsController < ApplicationController
     resources = resources_amount
     resources.each do |resource|
       user_amount = current_user.resources.find_by(resource_type: resource.resource_type.id)
-      unless user_amount
-        flash[:alert] = "User does not have any #{resource.resource_type.name}"
+      if !resource_exists?(user_amount, resource) || !money?(user_amount, resource)
         return false
       end
-      unless money?(user_amount.quantity, resource.cost)
-        flash[:alert] = "User has #{user_amount.quantity} of #{resource.resource_type.name}, but needs #{resource.cost}"
-        return false
-      end
+    end
+    true
+  end
+
+  def resource_exists?(user_amount, resource)
+    if user_amount.nil?
+      flash[:alert] = "User does not have any #{resource.resource_type.name}"
+      return false
     end
     true
   end
@@ -84,8 +87,13 @@ class DragonsTeamsController < ApplicationController
     @resource_type
   end
 
-  def money?(user_cost, resource)
-    user_cost - resource >= 0
+  def money?(user_amount, resource)
+    if user_amount.quantity - resource.cost >= 0
+      true
+    else
+      flash[:alert] = "User has #{user_amount.quantity} #{resource.resource_type.name}, but needs #{resource.cost}"
+      false
+    end
   end
 
   def dragon_params
