@@ -1,0 +1,12 @@
+= form_with scope: :expedition, url: expeditions_path, local: true do |expedition|
+  p
+    = expedition.label :"What type of expedition, you want your dragons to go?"
+    br
+    = expedition.select :expedition_type_id, collection: ExpeditionType.all.collect { |expeditiontype| [expeditiontype.name, expeditiontype.id] }
+  p
+    = expedition.label :"Which dragon you should sent?"
+    br
+    = expedition.select :dragon_id, collection: Dragon.all.collect { |dragon| [dragon.name, dragon.id] }
+  p
+    = expedition.submit
+  = link_to 'Back', expeditions_path(@expedition)

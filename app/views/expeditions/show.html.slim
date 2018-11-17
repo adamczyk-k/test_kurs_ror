@@ -1,0 +1,11 @@
+p
+  strong Name:
+  = @expedition.expedition_type.name
+p 
+  strong Dragon:
+  = @expedition.dragon.name
+p
+  strong Description:
+  = @expedition.expedition_type.description
+br
+  = link_to 'Back', expeditions_path(@expedition)

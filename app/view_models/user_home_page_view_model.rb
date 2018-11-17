@@ -10,4 +10,8 @@ class UserHomePageViewModel
     @user = current_user
     @resource = Resource.where(user: @user.id)
   end
+
+  def expeditions
+    @expedition = Expedition.where(user: @current_user.id)
+  end
 end

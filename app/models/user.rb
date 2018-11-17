@@ -6,4 +6,5 @@ class User < ApplicationRecord
 
   has_many :dragons
   has_many :resources
+  has_many :expeditions
 end
