@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_12_214123) do
+ActiveRecord::Schema.define(version: 2018_11_13_214009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,32 @@ ActiveRecord::Schema.define(version: 2018_11_12_214123) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "adventure_dragons", force: :cascade do |t|
+    t.bigint "adventure_id"
+    t.bigint "dragon_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["adventure_id"], name: "index_adventure_dragons_on_adventure_id"
+    t.index ["dragon_id"], name: "index_adventure_dragons_on_dragon_id"
+  end
+
+  create_table "adventure_resources", force: :cascade do |t|
+    t.bigint "adventure_id"
+    t.bigint "resource_type_id"
+    t.integer "chance"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["adventure_id"], name: "index_adventure_resources_on_adventure_id"
+    t.index ["resource_type_id"], name: "index_adventure_resources_on_resource_type_id"
+  end
+
+  create_table "adventures", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "dragon_costs", force: :cascade do |t|
@@ -101,6 +127,10 @@ ActiveRecord::Schema.define(version: 2018_11_12_214123) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "adventure_dragons", "adventures"
+  add_foreign_key "adventure_dragons", "dragons"
+  add_foreign_key "adventure_resources", "adventures"
+  add_foreign_key "adventure_resources", "resource_types"
   add_foreign_key "dragon_costs", "dragon_types"
   add_foreign_key "dragon_costs", "resource_types"
   add_foreign_key "dragons", "dragon_types"

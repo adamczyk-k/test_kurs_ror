@@ -1,12 +1,10 @@
 class ResourcesController < ApplicationController
   def index
-    @user = current_user
-    @resource = Resource.where(user: @user.id)
+    @resource = current_user.resources
   end
 
   def show
-    @user = current_user
-    @resource = @user.resources.find(params[:id])
+    @resource = current_user.resources.find(params[:id])
   end
 
   def new
