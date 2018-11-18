@@ -5,7 +5,7 @@ class ExpeditionTypesController < ApplicationController
 
   def show
     @expedition_type = ExpeditionType.find(params[:id])
-    @resources = ExpeditionPrize.where(expedition_type_id: @expedition_type)
+    @prize_resources = ExpeditionPrize.where(expedition_type_id: @expedition_type)
   end
 
   private
