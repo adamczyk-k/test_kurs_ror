@@ -6,9 +6,15 @@
   p
     = dragon.hidden_field :level, value: 0
   p
-    = dragon.label :"Choose type:"
+    = dragon.label :"Type of dragon: #{@type_of_dragon.name}"
+    = dragon.hidden_field :dragon_type_id, value: @type_of_dragon.id
+  p
+    = dragon.label :"Cost of dragon:"
     br
-    = dragon.select :dragon_type_id, collection: DragonType.all.collect { |dragontype| [dragontype.name, dragontype.id] }
+    - @dragon_cost.each do |cost|
+      = "#{cost.cost} of #{cost.resource_type.name}"
+      br
+    /= dragon.select :dragon_type_id, collection: DragonType.all.collect { |dragontype| [dragontype.name, dragontype.id] }
   p
     = dragon.label :"Set description:"
     br

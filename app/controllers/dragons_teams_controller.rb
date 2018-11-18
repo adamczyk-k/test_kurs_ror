@@ -13,6 +13,8 @@ class DragonsTeamsController < ApplicationController
     @view_model = UserHomePageViewModel.new
     @user = current_user
     @dragon = Dragon.new
+    @type_of_dragon = DragonType.find(params[:format])
+    @dragon_cost = DragonCost.where(dragon_type: @type_of_dragon)
   end
 
   def create
