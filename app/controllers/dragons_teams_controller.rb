@@ -17,13 +17,15 @@ class DragonsTeamsController < ApplicationController
   end
 
   def create
-    if dragons_limit
-      redirect_to dragons_teams_index_path(current_user.id)
-    elsif can_afford
-      add_dragon
+    dragon_type = DragonType.find(params[:dragons_team][:dragon_type_id])
+    if current_user.dragons.count >= 5
+      flash[:alert] = "You can't add more dragons"
+    elsif !current_user.can_afford?(DragonType.find(dragon_type.id))
+      flash[:alert] = current_user.missing_resources_for(dragon_type)
     else
-      redirect_to dragons_teams_index_path(current_user.id)
+      AddDragon.run!(user: current_user, dragon: Dragon.new(dragon_params))
     end
+    redirect_to dragons_teams_index_path(current_user.id)
   end
 
   def destroy
@@ -33,68 +35,6 @@ class DragonsTeamsController < ApplicationController
   end
 
   private
-
-  def dragons_limit
-    if current_user.dragons.count >= 5
-      flash[:alert] = "You can't add more dragons"
-      true
-    else
-      false
-    end
-  end
-
-  def add_dragon
-    @dragon = current_user.dragons.build(dragon_params)
-    if @dragon.save
-      pay_for_dragon
-      redirect_to dragons_teams_index_path(current_user.id)
-    else
-      flash[:alert] = @dragon.errors.full_messages
-    end
-  end
-
-  def pay_for_dragon
-    resources = resources_amount
-    resources.each do |resource|
-      @resource = current_user.resources.find_by(resource_type: resource.resource_type.id)
-      user_amount = @resource.quantity
-      @resource.update_attribute(:quantity, user_amount - resource.cost)
-    end
-  end
-
-  def can_afford
-    resources = resources_amount
-    resources.each do |resource|
-      user_amount = current_user.resources.find_by(resource_type: resource.resource_type.id)
-      if !resource_exists?(user_amount, resource) || !money?(user_amount, resource)
-        return false
-      end
-    end
-    true
-  end
-
-  def resource_exists?(user_amount, resource)
-    if user_amount.nil?
-      flash[:alert] = "User does not have any #{resource.resource_type.name}"
-      return false
-    end
-    true
-  end
-
-  def resources_amount
-    @dragon_type = params[:dragons_team][:dragon_type_id]
-    @resource_type = DragonCost.where(dragon_type_id: @dragon_type)
-    @resource_type
-  end
-
-  def money?(user_amount, resource)
-    if user_amount.quantity - resource.cost >= 0
-      true
-    else
-      flash[:alert] = "User has #{user_amount.quantity} #{resource.resource_type.name}, but needs #{resource.cost}"
-      false
-    end
-  end
 
   def dragon_params
     params.require(:dragons_team).permit(:name, :level, :dragon_type_id, :description)
