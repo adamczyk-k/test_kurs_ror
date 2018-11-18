@@ -2,7 +2,7 @@ AllCops:
   Exclude:
   - 'db/schema.rb'
   - 'bin/*'
-TargetRubyVersion: 2.5
+  - 'vector/bundle/**/*'
 Metrics/MethodLength:
   Max: 20
 LineLength:
