@@ -12,7 +12,7 @@
     = dragon.label :"Cost of dragon:"
     br
     - @dragon_cost.each do |cost|
-      = "#{cost.cost} of #{cost.resource_type.name}"
+      = "#{cost.cost} #{cost.resource_type.name}"
       br
     /= dragon.select :dragon_type_id, collection: DragonType.all.collect { |dragontype| [dragontype.name, dragontype.id] }
   p
