@@ -6,7 +6,7 @@
   p
     = expedition.label :"Which dragon you should sent?"
     br
-    = expedition.select :dragon_id, collection: Dragon.all.collect { |dragon| [dragon.name, dragon.id] }
+    = expedition.select :dragon_id, collection: Dragon.where(user_id: @current_user).collect { |dragon| [dragon.name, dragon.id] }
   p
     = expedition.submit
   = link_to 'Back', expeditions_path(@expedition)
