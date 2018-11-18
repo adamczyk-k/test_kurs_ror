@@ -4,11 +4,11 @@ class AddDragon < ActiveInteraction::Base
 
   def execute
     dragon.user = user
-    pay_for_dragon(dragon.dragon_type) if dragon.save
+    pay_for_dragon if dragon.save
   end
 
-  def pay_for_dragon(dragon_type)
-    resources = DragonCost.resources_amount(dragon_type)
+  def pay_for_dragon
+    resources = dragon.dragon_type.resources_amount
     resources.each do |resource|
       user_resource = user.resources.find_by(resource_type: resource.resource_type.id)
       user_amount = user_resource.quantity

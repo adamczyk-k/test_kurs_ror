@@ -13,14 +13,13 @@ class DragonsTeamsController < ApplicationController
     @view_model = UserHomePageViewModel.new
     @user = current_user
     @dragon = Dragon.new
-    # @dragon = current_user.dragon.build
   end
 
   def create
     dragon_type = DragonType.find(params[:dragons_team][:dragon_type_id])
     if current_user.dragons.count >= 5
       flash[:alert] = "You can't add more dragons"
-    elsif !current_user.can_afford?(DragonType.find(dragon_type.id))
+    elsif !current_user.can_afford?(dragon_type)
       flash[:alert] = current_user.missing_resources_for(dragon_type)
     else
       AddDragon.run!(user: current_user, dragon: Dragon.new(dragon_params))
