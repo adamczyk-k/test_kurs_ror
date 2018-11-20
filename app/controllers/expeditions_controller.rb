@@ -16,6 +16,8 @@ class ExpeditionsController < ApplicationController
     @expedition = current_user.expeditions.build(expedition_params)
 
     if @expedition.save
+      ExpeditionRemoveWorker.perform_at(5.seconds.from_now, @expedition.id, @expedition.expedition_type.id, current_user.id)
+      flash[:notice] = 'Expedition came back!'
       redirect_to expeditions_index_path(current_user.id)
     else
       flash[:alert] = @expedition.errors.full_messages
