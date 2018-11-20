@@ -18,15 +18,22 @@ class User < ApplicationRecord
   end
 
   def missing_resources_for(dragon_type)
-    missing_resources = 'Lacking resources: '
-    resources_list = dragon_type.resources_amount
-    resources_list.each do |resource|
+    missing_resources = []
+    dragon_type.resources_amount.each do |resource|
       user_amount = resources.find_by(resource_type: resource.resource_type.id)
       if user_amount.nil?
-        missing_resources += "#{resource.cost} #{resource.resource_type.name} "
+        missing_resources << { resource: resource, quantity: resource.cost }
       elsif !good_amount?(user_amount, resource)
-        missing_resources += "#{resource.cost - user_amount.quantity} #{resource.resource_type.name} "
+        missing_resources << { resource: resource, quantity: resource.cost - user_amount.quantity }
       end
+    end
+    missing_resources
+  end
+
+  def missing_resources_for_error(dragon_type)
+    missing_resources = 'Lacking resources: '
+    missing_resources_for(dragon_type).map do |missing_resource|
+      missing_resources += "#{missing_resource[:quantity]} #{missing_resource[:resource].resource_type.name} "
     end
     missing_resources
   end
