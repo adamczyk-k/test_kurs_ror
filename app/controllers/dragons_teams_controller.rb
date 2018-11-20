@@ -19,10 +19,10 @@ class DragonsTeamsController < ApplicationController
 
   def create
     dragon_type = DragonType.find(params[:dragons_team][:dragon_type_id])
-    if current_user.dragons.count >= 5
+    if current_user.reached_dragons_limit
       flash[:alert] = "You can't add more dragons"
     elsif !current_user.can_afford?(dragon_type)
-      flash[:alert] = current_user.missing_resources_for(dragon_type)
+      flash[:alert] = current_user.missing_resources_for_error(dragon_type)
     else
       AddDragon.run!(user: current_user, dragon: Dragon.new(dragon_params))
     end

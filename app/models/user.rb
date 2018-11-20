@@ -8,6 +8,8 @@ class User < ApplicationRecord
   has_many :resources
   has_many :expeditions
 
+  DRAGONS_LIMIT = 5
+
   # @param dragon_type [DragonType]
   # @return [Boolean]
   def can_afford?(dragon_type)
@@ -32,6 +34,10 @@ class User < ApplicationRecord
       missing_resources += "#{missing_resource[:quantity]} #{missing_resource[:resource].resource_type.name} "
     end
     missing_resources
+  end
+
+  def reached_dragons_limit?
+    dragons.count >= DRAGONS_LIMIT
   end
 
   private
