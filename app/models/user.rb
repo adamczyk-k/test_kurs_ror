@@ -42,14 +42,8 @@ class User < ApplicationRecord
     user_amount = resources.find_by(resource_type: dragon_cost_resource.resource_type.id)
     if user_amount.nil?
       { resource: dragon_cost_resource, quantity: dragon_cost_resource.cost }
-    elsif !good_amount?(user_amount, dragon_cost_resource)
+    elsif user_amount.quantity < dragon_cost_resource.cost
       { resource: dragon_cost_resource, quantity: dragon_cost_resource.cost - user_amount.quantity }
     end
-  end
-
-  # @param user_amount [Resource]
-  # @param resource [DragonCost]
-  def good_amount?(user_amount, resource)
-    user_amount.quantity - resource.cost >= 0
   end
 end
