@@ -7,7 +7,6 @@ RSpec.describe AddDragon do
     let!(:dragon) { FactoryBot.create :dragon, dragon_type: dragon_type }
 
     context 'When dragon is for free' do
-
       it 'User should get new dragon' do
         AddDragon.run!(user: user, dragon: dragon)
         expect(user.dragons.last).to eq(dragon)
