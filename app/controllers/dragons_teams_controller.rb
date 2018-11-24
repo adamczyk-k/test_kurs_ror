@@ -33,7 +33,7 @@ class DragonsTeamsController < ApplicationController
   private
 
   def process_dragon_creation(dragon_type)
-    if current_user.reached_dragons_limit
+    if current_user.reached_dragons_limit?
       flash[:alert] = "You can't add more dragons"
     elsif !current_user.can_afford?(dragon_type)
       flash[:alert] = current_user.missing_resources_for_error(dragon_type)

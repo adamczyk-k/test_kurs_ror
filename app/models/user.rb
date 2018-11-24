@@ -21,7 +21,9 @@ class User < ApplicationRecord
   def missing_resources_for(dragon_type)
     missing_resources = []
     dragon_type.resources_amount.each do |dragon_cost_resource|
-      missing_resources << missing_quantity_of(dragon_cost_resource)
+      unless missing_quantity_of(dragon_cost_resource).nil?
+        missing_resources << missing_quantity_of(dragon_cost_resource)
+      end
     end
     missing_resources
   end
