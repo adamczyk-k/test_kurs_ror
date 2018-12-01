@@ -1,0 +1,13 @@
+p
+  strong Name:
+  = @expedition_type.name
+p
+  strong Description:
+  = @expedition_type.description
+p
+  strong Prize:
+  - @prize_resources.each do |prize_resource|
+    p
+      = "#{prize_resource.name} | #{prize_resource.resource_type.name}: #{prize_resource.prize}"
+  br
+  = link_to 'Back', expedition_types_path

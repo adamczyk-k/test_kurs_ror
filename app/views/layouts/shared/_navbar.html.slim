@@ -1,14 +1,34 @@
 nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
   ul.navbar-nav
+	li.nav-item
+      - if user_signed_in?
+        a.nav-link.enabled data-method='get' href=user_root_path User panel
+        
+    li.nav-item
+      - if user_signed_in?
+        a.nav-link href=dragons_teams_index_path
+          | Dragons team
     li.nav-item
       a.nav-link href=dragon_types_path
         | Dragon types
+    
+    li.nav-item
+      - if user_signed_in?
+        a.nav-link href=expeditions_path
+          | Expeditions
+    li.nav-item
+      - if user_signed_in?
+        a.nav-link href=expedition_types_path
+          | Expedition types
+          
+    li.nav-item
+      - if user_signed_in?
+        a.nav-link href=resources_path
+          | Resources
     li.nav-item
       a.nav-link href=resource_types_path
         | Resource types
-    li.nav-item
-      - if user_signed_in?
-        a.nav-link.enabled data-method='get' href=user_root_path User panel
+    
     li.nav-item
       - if not user_signed_in?
         a.nav-link.enabled data-method='get' href=new_user_registration_path Sign up

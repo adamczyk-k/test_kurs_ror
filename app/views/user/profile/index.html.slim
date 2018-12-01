@@ -1,1 +1,30 @@
-h1 Panel usera
+h3
+  = "#{current_user.email}'s:"
+
+p
+  = "Experience points: #{current_user.experience}"
+
+h3
+  = "Dragons:"
+ul
+  - @view_model.dragons_team.each do |dragon|
+    .col-sm-4
+      p
+        a href=dragons_team_path(dragon)
+          = "#{dragon.name} (#{dragon.dragon_type.name})"
+      p
+        = link_to 'Delete', dragons_team_path(dragon),
+                method: :delete,
+                data: { confirm: 'Are you sure?' }
+
+h3
+  = "Resources:"
+ul
+  - @current_user.resources.each do |resource|
+    .col-sm-6
+	  p
+	    a href=resource_path(resource)
+          = "#{resource.resource_type.name}: #{resource.quantity}"
+  
+  
+      

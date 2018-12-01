@@ -1,0 +1,11 @@
+= link_to root_path do
+  strong Back to main page
+
+h3
+  = "Resources:"
+ul
+  - @current_user.resources.each do |resource|
+    .col-sm-6
+	  p
+	    a href=resource_path(resource)
+          = "#{resource.resource_type.name}: #{resource.quantity}"

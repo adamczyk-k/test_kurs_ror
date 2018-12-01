@@ -12,6 +12,9 @@
   <body>
     <%= render partial: 'layouts/shared/navbar' %>
     <div style="width: 1000px; margin: 50px auto">
+        <% if flash[:alert].present? %>
+          <div style="background: lightblue"><%= flash[:alert] %></div>
+        <% end %>
       <%= yield %>
     </div>
   </body>

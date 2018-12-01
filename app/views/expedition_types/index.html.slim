@@ -1,0 +1,12 @@
+h1 Listing all expedition types
+table
+  tr
+    th Expedition type
+    th Description
+    th
+  - @expedition_type.each do |expd|
+    tr
+      td= expd.name
+      td= expd.description
+      td= link_to 'Show', expedition_type_path(expd)
+      

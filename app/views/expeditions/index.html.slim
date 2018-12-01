@@ -1,0 +1,17 @@
+= link_to root_path do
+  strong Back to main page
+
+h3
+  = "Expeditions:"
+ul
+  - @current_user.expeditions.each do |expd| 
+    .col-sm-6
+      p
+        a href=expedition_path(expd)
+          = "#{expd.expedition_type.name} | #{expd.dragon.name}"
+      p
+        = link_to 'Bring back', expedition_path(expd),
+                method: :delete,
+                data: { confirm: 'Are you sure?' } 
+  = button_to "Form new expedition", { :action => "new" }, :method => :get
+      

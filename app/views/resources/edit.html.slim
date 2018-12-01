@@ -1,0 +1,8 @@
+= form_with(model: @resource, local: true) do |resrc|
+  p
+    = resrc.label :"What's new value?"
+    br
+    = resrc.number_field :quantity, min: 0
+  p
+    = resrc.submit
+  = link_to 'Back', resource_path(@resource)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_28_230425) do
+ActiveRecord::Schema.define(version: 2018_11_18_135353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,16 @@ ActiveRecord::Schema.define(version: 2018_10_28_230425) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "dragon_costs", force: :cascade do |t|
+    t.bigint "dragon_type_id"
+    t.bigint "resource_type_id"
+    t.integer "cost"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dragon_type_id"], name: "index_dragon_costs_on_dragon_type_id"
+    t.index ["resource_type_id"], name: "index_dragon_costs_on_resource_type_id"
+  end
+
   create_table "dragon_types", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -48,11 +58,62 @@ ActiveRecord::Schema.define(version: 2018_10_28_230425) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "dragons", force: :cascade do |t|
+    t.string "name"
+    t.bigint "user_id"
+    t.bigint "dragon_type_id"
+    t.integer "level"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dragon_type_id"], name: "index_dragons_on_dragon_type_id"
+    t.index ["user_id"], name: "index_dragons_on_user_id"
+  end
+
+  create_table "expedition_prizes", force: :cascade do |t|
+    t.string "name"
+    t.integer "prize"
+    t.bigint "expedition_type_id"
+    t.bigint "resource_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["expedition_type_id"], name: "index_expedition_prizes_on_expedition_type_id"
+    t.index ["resource_type_id"], name: "index_expedition_prizes_on_resource_type_id"
+  end
+
+  create_table "expedition_types", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "expeditions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "dragon_id"
+    t.bigint "expedition_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dragon_id"], name: "index_expeditions_on_dragon_id"
+    t.index ["expedition_type_id"], name: "index_expeditions_on_expedition_type_id"
+    t.index ["user_id"], name: "index_expeditions_on_user_id"
+  end
+
   create_table "resource_types", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "resources", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "resource_type_id"
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["resource_type_id"], name: "index_resources_on_resource_type_id"
+    t.index ["user_id"], name: "index_resources_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -63,8 +124,20 @@ ActiveRecord::Schema.define(version: 2018_10_28_230425) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "experience", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "dragon_costs", "dragon_types"
+  add_foreign_key "dragon_costs", "resource_types"
+  add_foreign_key "dragons", "dragon_types"
+  add_foreign_key "dragons", "users"
+  add_foreign_key "expedition_prizes", "expedition_types"
+  add_foreign_key "expedition_prizes", "resource_types"
+  add_foreign_key "expeditions", "dragons"
+  add_foreign_key "expeditions", "expedition_types"
+  add_foreign_key "expeditions", "users"
+  add_foreign_key "resources", "resource_types"
+  add_foreign_key "resources", "users"
 end

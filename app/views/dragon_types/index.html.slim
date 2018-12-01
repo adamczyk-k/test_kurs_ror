@@ -3,9 +3,12 @@ table
   tr
     th Dragon type
     th Description
+    th More information
+    th Add new dragon
     th
   - @dragon_type.each do |dragon|
     tr
       td= dragon.name
       td= dragon.description
       td= link_to 'Show', dragon_type_path(dragon)
+      td= link_to 'Add', new_dragons_team_path(dragon)

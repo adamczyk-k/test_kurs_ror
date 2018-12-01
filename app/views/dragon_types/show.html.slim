@@ -4,6 +4,12 @@ p
 p
   strong Description:
   = @dragon_type.description
-
+p
+  strong Cost:
+  - @resources.each do |resource|
+    p
+      = resource.resource_type.name
+      | :
+      = resource.cost
   br
   = link_to 'Back', dragon_types_path
