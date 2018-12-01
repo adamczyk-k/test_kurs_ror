@@ -18,6 +18,7 @@ class DragonsTeamsController < ApplicationController
   end
 
   def create
+    print params[:dragons_team]
     dragon_type = DragonType.find(params[:dragons_team][:dragon_type_id])
     process_dragon_creation(dragon_type)
 
