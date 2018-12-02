@@ -24,7 +24,8 @@ class ClaimPrize < ActiveInteraction::Base
   end
 
   def update_resource(prize)
+    dragon = expedition.dragon
     user_amount = @resource.quantity
-    @resource.update_attribute(:quantity, user_amount + prize)
+    @resource.update_attribute(:quantity, user_amount + dragon.stat.add_bonus_from_perception(prize))
   end
 end
