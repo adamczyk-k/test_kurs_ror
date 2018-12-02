@@ -17,5 +17,23 @@ RSpec.describe DragonsTeamsController do
       # subject
       # print user.dragons.last.dragon_type.name
     end
+
+    context 'with dragons limit' do
+      let(:dragon) { FactoryBot.create :dragon, user: user, dragon_type: dragon_type }
+      let(:dragon1) { FactoryBot.create :dragon, user: user, dragon_type: dragon_type }
+      let(:dragon2) { FactoryBot.create :dragon, user: user, dragon_type: dragon_type }
+      let(:dragon3) { FactoryBot.create :dragon, user: user, dragon_type: dragon_type }
+      let(:dragon4) { FactoryBot.create :dragon, user: user, dragon_type: dragon_type }
+      it do
+        dragon.save
+        dragon1.save
+        dragon2.save
+        dragon3.save
+        dragon4.save
+        user.reload
+        expect { subject }.to change { user.dragons.reload.size }.by(0)
+        expect(flash[:alert]).to eq("You can't add more dragons")
+      end
+    end
   end
 end

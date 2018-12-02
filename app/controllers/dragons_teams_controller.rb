@@ -18,7 +18,6 @@ class DragonsTeamsController < ApplicationController
   end
 
   def create
-    print params[:dragons_team]
     dragon_type = DragonType.find(params[:dragons_team][:dragon_type_id])
     process_dragon_creation(dragon_type)
 
@@ -34,6 +33,7 @@ class DragonsTeamsController < ApplicationController
   private
 
   def process_dragon_creation(dragon_type)
+    print current_user.dragons.all.size
     if current_user.reached_dragons_limit?
       flash[:alert] = "You can't add more dragons"
     elsif !current_user.can_afford?(dragon_type)

@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :stat do
     dragon { nil }
-    strength { 1 }
-    perception { 1 }
-    luck { 1 }
+    strength { 0 }
+    perception { 0 }
+    luck { 0 }
   end
 end
