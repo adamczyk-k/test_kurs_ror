@@ -26,13 +26,13 @@ class ExpeditionsController < ApplicationController
     redirect_to expeditions_index_path(current_user.id)
   end
 
+  private
+
   def claim_worker
     ExpeditionRemoveWorker.perform_at(5.seconds.from_now, @expedition.id, @expedition.expedition_type.id, current_user.id)
     flash[:notice] = 'Expedition came back!'
     redirect_to expeditions_index_path(current_user.id)
   end
-
-  private
 
   def expedition_params
     params.require(:expedition).permit(:dragon_id, :expedition_type_id)
