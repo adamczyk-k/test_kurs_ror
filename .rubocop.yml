@@ -3,11 +3,16 @@ AllCops:
   - 'db/schema.rb'
   - 'bin/*'
   - 'vendor/bundle/**/*'
-Metrics/MethodLength:
-  Max: 20
 LineLength:
   Enabled: false
 Documentation:
   Enabled: false
 Style/FrozenStringLiteralComment:
   Enabled: false
+Metrics/BlockLength:
+  Exclude:
+  - 'spec/**/*.rb'
+Metrics/MethodLength:
+  Max: 20
+  Exclude:
+  - 'db/migrate/*.rb'

@@ -8,30 +8,50 @@ class User < ApplicationRecord
   has_many :resources
   has_many :expeditions
 
+  DRAGONS_LIMIT = 5
+
+  # @param dragon_type [DragonType]
+  # @return [Boolean]
   def can_afford?(dragon_type)
-    resources_list = dragon_type.resources_amount
-    resources_list.each do |resource|
-      user_amount = resources.find_by(resource_type: resource.resource_type.id)
-      return false if user_amount.nil? || !good_amount?(user_amount, resource)
-    end
-    true
+    missing_resources_for(dragon_type).empty?
   end
 
+  # @param dragon_type [DragonType]
+  # @return [Array<Hash>]
   def missing_resources_for(dragon_type)
-    missing_resources = 'Lacking resources: '
-    resources_list = dragon_type.resources_amount
-    resources_list.each do |resource|
-      user_amount = resources.find_by(resource_type: resource.resource_type.id)
-      if user_amount.nil?
-        missing_resources += "#{resource.cost} #{resource.resource_type.name} "
-      elsif !good_amount?(user_amount, resource)
-        missing_resources += "#{resource.cost - user_amount.quantity} #{resource.resource_type.name} "
+    missing_resources = []
+    dragon_type.resources_amount.each do |dragon_cost_resource|
+      unless missing_quantity_of(dragon_cost_resource).nil?
+        missing_resources << missing_quantity_of(dragon_cost_resource)
       end
     end
     missing_resources
   end
 
-  def good_amount?(user_amount, resource)
-    user_amount.quantity - resource.cost >= 0
+  # @param dragon_type [DragonType]
+  # @return String
+  def missing_resources_for_error(dragon_type)
+    missing_resources = 'Lacking resources: '
+    missing_resources_for(dragon_type).map do |missing_resource|
+      missing_resources += "#{missing_resource[:quantity]} #{missing_resource[:resource].resource_type.name} "
+    end
+    missing_resources
+  end
+
+  def reached_dragons_limit?
+    dragons.count >= DRAGONS_LIMIT
+  end
+
+  private
+
+  # @param dragon_cost_resource [DragonCost]
+  # @return [nil, Hash<resource: DragonCost, quantity: Integer>]
+  def missing_quantity_of(dragon_cost_resource)
+    user_amount = resources.find_by(resource_type: dragon_cost_resource.resource_type.id)
+    if user_amount.nil?
+      { resource: dragon_cost_resource, quantity: dragon_cost_resource.cost }
+    elsif user_amount.quantity < dragon_cost_resource.cost
+      { resource: dragon_cost_resource, quantity: dragon_cost_resource.cost - user_amount.quantity }
+    end
   end
 end

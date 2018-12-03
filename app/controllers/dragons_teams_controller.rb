@@ -19,13 +19,8 @@ class DragonsTeamsController < ApplicationController
 
   def create
     dragon_type = DragonType.find(params[:dragons_team][:dragon_type_id])
-    if current_user.dragons.count >= 5
-      flash[:alert] = "You can't add more dragons"
-    elsif !current_user.can_afford?(dragon_type)
-      flash[:alert] = current_user.missing_resources_for(dragon_type)
-    else
-      AddDragon.run!(user: current_user, dragon: Dragon.new(dragon_params))
-    end
+    process_dragon_creation(dragon_type)
+
     redirect_to dragons_teams_index_path(current_user.id)
   end
 
@@ -36,6 +31,16 @@ class DragonsTeamsController < ApplicationController
   end
 
   private
+
+  def process_dragon_creation(dragon_type)
+    if current_user.reached_dragons_limit?
+      flash[:alert] = "You can't add more dragons"
+    elsif !current_user.can_afford?(dragon_type)
+      flash[:alert] = current_user.missing_resources_for_error(dragon_type)
+    else
+      AddDragon.run!(user: current_user, dragon: Dragon.new(dragon_params))
+    end
+  end
 
   def dragon_params
     params.require(:dragons_team).permit(:name, :level, :dragon_type_id, :description)
