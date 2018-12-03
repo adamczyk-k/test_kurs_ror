@@ -1,3 +1,3 @@
 ActiveAdmin.register Stat do
-  permit_params :dragon, :strength, :perception, :luck
+  permit_params :dragon_id, :strength, :perception, :luck
 end

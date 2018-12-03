@@ -23,7 +23,8 @@ class ExpeditionsController < ApplicationController
   end
 
   def destroy
-    ClaimPrize.run!(user: current_user, expedition: Expedition.find(params[:id]))
+    expedition = Expedition.find(params[:id])
+    flash[:alert] = expedition.resolve_expedition
     redirect_to expeditions_index_path(current_user.id)
   end
 
