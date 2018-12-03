@@ -31,6 +31,8 @@ class ClaimPrize < ActiveInteraction::Base
   def add_bonus_resource
     dragon = expedition.dragon
     resource = dragon.stat.find_random_resource
+    return if resource.nil?
+
     @resource = user.resources.find_by(id: resource)
     add_resource(resource) if @resource.nil?
     update_resource(10)
