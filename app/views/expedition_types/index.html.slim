@@ -3,10 +3,12 @@ table
   tr
     th Expedition type
     th Description
+    th Longevity (sec)
     th
   - @expedition_type.each do |expd|
     tr
       td= expd.name
       td= expd.description
+      td= expd.longevity
       td= link_to 'Show', expedition_type_path(expd)
       

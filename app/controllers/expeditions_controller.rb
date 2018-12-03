@@ -14,8 +14,11 @@ class ExpeditionsController < ApplicationController
 
   def create
     @expedition = current_user.expeditions.build(expedition_params)
+    @expedition.start_time = DateTime.now
     if @expedition.save
-      claim_worker
+      flash[:notice] = 'You sent Expedition!'
+      # claim_worker
+      redirect_to expeditions_index_path(current_user.id)
     else
       flash[:alert] = @expedition.errors.full_messages
     end
@@ -29,12 +32,11 @@ class ExpeditionsController < ApplicationController
   private
 
   def claim_worker
-    ExpeditionRemoveWorker.perform_at(5.seconds.from_now, @expedition.id, @expedition.expedition_type.id, current_user.id)
+    ExpeditionRemoveWorker.perform_at(10.seconds.from_now, @expedition.id, @expedition.expedition_type.id, current_user.id)
     flash[:notice] = 'Expedition came back!'
-    redirect_to expeditions_index_path(current_user.id)
   end
 
   def expedition_params
-    params.require(:expedition).permit(:dragon_id, :expedition_type_id)
+    params.require(:expedition).permit(:dragon_id, :expedition_type_id, :start_time)
   end
 end

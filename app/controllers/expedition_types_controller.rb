@@ -11,6 +11,6 @@ class ExpeditionTypesController < ApplicationController
   private
 
   def expedition_type_params
-    params.require(:expedition_types).permit(:name, :description)
+    params.require(:expedition_types).permit(:name, :description, :longevity)
   end
 end
