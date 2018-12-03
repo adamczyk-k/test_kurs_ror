@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2018_12_02_160531) do
+=======
+ActiveRecord::Schema.define(version: 2018_12_03_042624) do
+>>>>>>> f41c85a720e16e269ac1fb529ee1f6da575229f1
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +90,7 @@ ActiveRecord::Schema.define(version: 2018_12_02_160531) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "longevity", default: 0
   end
 
   create_table "expeditions", force: :cascade do |t|
@@ -94,6 +99,7 @@ ActiveRecord::Schema.define(version: 2018_12_02_160531) do
     t.bigint "expedition_type_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "start_time"
     t.index ["dragon_id"], name: "index_expeditions_on_dragon_id"
     t.index ["expedition_type_id"], name: "index_expeditions_on_expedition_type_id"
     t.index ["user_id"], name: "index_expeditions_on_user_id"

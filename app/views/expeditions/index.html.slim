@@ -8,9 +8,9 @@ ul
     .col-sm-6
       p
         a href=expedition_path(expd)
-          = "#{expd.expedition_type.name} | #{expd.dragon.name}"
+          = "\"#{expd.expedition_type.name}\" - #{expd.dragon.name} (ends at: #{expd.start_time + expd.expedition_type.longevity})"
       p
-        = link_to 'Bring back', expedition_path(expd),
+        = link_to_if expd.start_time + expd.expedition_type.longevity < DateTime.now, 'Bring back', expedition_path(expd),
                 method: :delete,
                 data: { confirm: 'Are you sure?' } 
   = button_to "Form new expedition", { :action => "new" }, :method => :get
