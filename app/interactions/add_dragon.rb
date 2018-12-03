@@ -4,6 +4,8 @@ class AddDragon < ActiveInteraction::Base
 
   def execute
     dragon.user = user
+    stat = Stat.new(dragon: dragon, strength: 0, luck: 0, perception: 0)
+    stat.save
     pay_for_dragon if dragon.save
   end
 

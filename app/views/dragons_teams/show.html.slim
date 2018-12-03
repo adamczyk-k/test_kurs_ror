@@ -10,5 +10,13 @@ p
 p
   strong Description:
   = @dragon.description
+p
+  strong Attributes:
+  br
+  = "Strength: #{@dragon.stat.strength}"
+  br
+  = "Perception: #{@dragon.stat.perception}"
+  br
+  = "Luck: #{@dragon.stat.luck}"
 br
 = link_to 'Back', root_path
