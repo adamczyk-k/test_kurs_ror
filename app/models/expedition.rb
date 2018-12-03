@@ -8,6 +8,7 @@ class Expedition < ApplicationRecord
   def resolve_expedition
     if dragon_survive?
       ClaimPrize.run!(user: user, expedition: self)
+      ''
     else
       alert = "Your dragon #{dragon.name} didn't survive expedition to #{expedition_type.name}"
       kill_dragon

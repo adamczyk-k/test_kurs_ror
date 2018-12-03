@@ -24,7 +24,8 @@ class ExpeditionsController < ApplicationController
 
   def destroy
     expedition = Expedition.find(params[:id])
-    flash[:alert] = expedition.resolve_expedition
+    alert = expedition.resolve_expedition
+    flash[:alert] = alert unless alert.nil?
     redirect_to expeditions_index_path(current_user.id)
   end
 
