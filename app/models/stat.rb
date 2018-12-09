@@ -17,16 +17,14 @@ class Stat < ApplicationRecord
     level_up_stat = []
     case attribute
     when 'Perception'
-      update_attribute(:perception, perception+1)
+      update_attribute(:perception, perception + 1)
       level_up_stat = ['Perception', perception]
     when 'Strength'
-      update_attribute(:strength, strength+1)
+      update_attribute(:strength, strength + 1)
       level_up_stat = ['Strength', strength]
     when 'Luck'
-      update_attribute(:luck, luck+1)
+      update_attribute(:luck, luck + 1)
       level_up_stat = ['Luck', luck]
-    else
-
     end
     level_up_stat
   end
