@@ -11,7 +11,6 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
     li.nav-item
       a.nav-link href=dragon_types_path
         | Dragon types
-    
     li.nav-item
       - if user_signed_in?
         a.nav-link href=expeditions_path
@@ -24,6 +23,10 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
       - if user_signed_in?
         a.nav-link href=trainings_index_path
           | Trainings
+    li.nav-item
+      - if user_signed_in?
+        a.nav-link href=dragon_trainings_path
+          | Dragons on trainings
     li.nav-item
       - if user_signed_in?
         a.nav-link href=resources_path

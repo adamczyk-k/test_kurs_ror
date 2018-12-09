@@ -1,8 +1,32 @@
 class DragonTrainingsController < ApplicationController
+
   def new
     @dragon_training = DragonTraining.new
     @training = Training.find(params[:format])
     @training_cost = TrainingCost.where(training: @training)
+  end
+
+  def index
+    dragons = current_user.dragons
+    @trainings = DragonTraining.where(dragon: dragons)
+  end
+
+  def destroy
+    flash[:alert] = resolve_expedition
+
+    redirect_to dragon_trainings_index_path(current_user.id)
+  end
+
+  def resolve_expedition
+    @training = DragonTraining.find(params[:id])
+    @dragon = @training.dragon
+    if @training.ended?
+      alert = @dragon.prize_from_training(TrainingPrize.where(training: @training.training))
+      @training.destroy
+      alert
+    else
+      "#{@training.dragon.name}'s training ongoing"
+    end
   end
 
   def create

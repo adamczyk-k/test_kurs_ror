@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get 'food_times/new'
   get 'trainings/index'
   get 'dragon_trainings/new'
+  get 'dragon_trainings/index'
   root 'dragon_types#index'
 
   resources :dragons_teams
