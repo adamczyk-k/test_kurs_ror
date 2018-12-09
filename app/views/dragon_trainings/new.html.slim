@@ -1,0 +1,18 @@
+= form_with scope: :dragon_trainings, url: dragon_trainings_path(@training), local: true do |dragon_training|
+  p
+    = dragon_training.label :"Choose dragon:"
+    br
+    = dragon_training.select :dragon_id, collection: Dragon.where(user_id: current_user).collect {|dragon| [dragon.name, dragon.id]}
+  p
+    = dragon_training.label :"Cost of training:"
+    br
+    - @training_cost.each do |cost|
+      = "#{cost.cost} #{cost.resource_type.name}"
+      br
+  p
+    = dragon_training.label :"Time of training:"
+    br
+    = "#{@training.duration} hours"
+  p
+    = dragon_training.submit
+  = link_to 'Back', root_path

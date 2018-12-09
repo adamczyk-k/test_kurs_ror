@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'dragon_trainings/new'
+  get 'trainings/index'
   get 'food_times/new'
   devise_for :users
   devise_for :admin_users, ActiveAdmin::Devise.config
@@ -10,6 +12,8 @@ Rails.application.routes.draw do
   get 'resources/index'
   get 'expeditions/index'
   get 'food_times/new'
+  get 'trainings/index'
+  get 'dragon_trainings/new'
   root 'dragon_types#index'
 
   resources :dragons_teams
@@ -17,6 +21,8 @@ Rails.application.routes.draw do
   resources :resources
   resources :resource_types
   resources :food_times
+  resources :trainings
+  resources :dragon_trainings
 
   resources :expeditions
   resources :expedition_types

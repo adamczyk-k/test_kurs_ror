@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_09_182912) do
+ActiveRecord::Schema.define(version: 2018_12_09_211523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,16 @@ ActiveRecord::Schema.define(version: 2018_12_09_182912) do
     t.datetime "updated_at", null: false
     t.index ["dragon_type_id"], name: "index_dragon_costs_on_dragon_type_id"
     t.index ["resource_type_id"], name: "index_dragon_costs_on_resource_type_id"
+  end
+
+  create_table "dragon_trainings", force: :cascade do |t|
+    t.bigint "dragon_id"
+    t.bigint "training_id"
+    t.datetime "start_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dragon_id"], name: "index_dragon_trainings_on_dragon_id"
+    t.index ["training_id"], name: "index_dragon_trainings_on_training_id"
   end
 
   create_table "dragon_types", force: :cascade do |t|
@@ -176,6 +186,7 @@ ActiveRecord::Schema.define(version: 2018_12_09_182912) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "duration"
   end
 
   create_table "users", force: :cascade do |t|
@@ -195,6 +206,8 @@ ActiveRecord::Schema.define(version: 2018_12_09_182912) do
   add_foreign_key "dragon_attributes", "dragons"
   add_foreign_key "dragon_costs", "dragon_types"
   add_foreign_key "dragon_costs", "resource_types"
+  add_foreign_key "dragon_trainings", "dragons"
+  add_foreign_key "dragon_trainings", "trainings"
   add_foreign_key "dragons", "dragon_types"
   add_foreign_key "dragons", "users"
   add_foreign_key "expedition_prizes", "expedition_types"

@@ -20,7 +20,10 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
       - if user_signed_in?
         a.nav-link href=expedition_types_path
           | Expedition types
-          
+    li.nav-item
+      - if user_signed_in?
+        a.nav-link href=trainings_index_path
+          | Trainings
     li.nav-item
       - if user_signed_in?
         a.nav-link href=resources_path
