@@ -14,5 +14,11 @@
     br
     = "#{@training.duration} hours"
   p
+    = dragon_training.label :"Prize of training:"
+    br
+    - @training_prize.each do |prize|
+      = "#{prize.quantity} #{prize.attributes_type.name}"
+      br
+  p
     = dragon_training.submit
   = link_to 'Back', root_path

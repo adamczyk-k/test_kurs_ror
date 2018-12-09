@@ -1,9 +1,9 @@
 class DragonTrainingsController < ApplicationController
-
   def new
     @dragon_training = DragonTraining.new
     @training = Training.find(params[:format])
     @training_cost = TrainingCost.where(training: @training)
+    @training_prize = TrainingPrize.where(training: @training)
   end
 
   def index
@@ -35,7 +35,6 @@ class DragonTrainingsController < ApplicationController
     process_training_creation(dragon, training)
 
     redirect_to dragons_teams_index_path(current_user.id)
-
   end
 
   def process_training_creation(dragon, training)

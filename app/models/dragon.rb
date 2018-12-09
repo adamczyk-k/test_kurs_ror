@@ -13,7 +13,7 @@ class Dragon < ApplicationRecord
   end
 
   def prize_from_training(prizes)
-    levels_up = "#{self.name} levels up: "
+    levels_up = "#{name} levels up: "
     prizes.each do |prize|
       get_level_up(prize)
       levels_up += "#{prize.attributes_type.name} by #{prize.quantity}"
