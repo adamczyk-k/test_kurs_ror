@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_09_180348) do
+ActiveRecord::Schema.define(version: 2018_12_09_182912) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -151,6 +151,33 @@ ActiveRecord::Schema.define(version: 2018_12_09_180348) do
     t.index ["user_id"], name: "index_resources_on_user_id"
   end
 
+  create_table "training_costs", force: :cascade do |t|
+    t.bigint "training_id"
+    t.bigint "resource_type_id"
+    t.integer "cost"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["resource_type_id"], name: "index_training_costs_on_resource_type_id"
+    t.index ["training_id"], name: "index_training_costs_on_training_id"
+  end
+
+  create_table "training_prizes", force: :cascade do |t|
+    t.bigint "training_id"
+    t.bigint "attributes_type_id"
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["attributes_type_id"], name: "index_training_prizes_on_attributes_type_id"
+    t.index ["training_id"], name: "index_training_prizes_on_training_id"
+  end
+
+  create_table "trainings", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -179,4 +206,8 @@ ActiveRecord::Schema.define(version: 2018_12_09_180348) do
   add_foreign_key "foodtimes", "dragons"
   add_foreign_key "resources", "resource_types"
   add_foreign_key "resources", "users"
+  add_foreign_key "training_costs", "resource_types"
+  add_foreign_key "training_costs", "trainings"
+  add_foreign_key "training_prizes", "attributes_types"
+  add_foreign_key "training_prizes", "trainings"
 end
