@@ -5,6 +5,6 @@ class DragonTraining < ApplicationRecord
   CHEAT_TIME = false
 
   def ended?
-    CHEAT_TIME || start_time + training.duration.hour < Time.now
+    CHEAT_TIME || start_time + training.duration.hour < DateTime.current
   end
 end

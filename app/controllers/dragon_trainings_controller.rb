@@ -38,7 +38,9 @@ class DragonTrainingsController < ApplicationController
   end
 
   def process_training_creation(dragon, training)
-    if !current_user.can_afford?(training)
+    if !DragonTraining.find_by(dragon: dragon).nil?
+      flash[:alert] = "#{dragon.name} is already on training"
+    elsif !current_user.can_afford?(training)
       flash[:alert] = current_user.missing_resources_for_error(training)
     else
       AddTraining.run!(user: current_user, dragon: dragon, training: training)
