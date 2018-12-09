@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_09_145918) do
+ActiveRecord::Schema.define(version: 2018_12_09_180348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,23 @@ ActiveRecord::Schema.define(version: 2018_12_09_145918) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "attributes_types", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "dragon_attributes", force: :cascade do |t|
+    t.bigint "dragon_id"
+    t.bigint "attributes_type_id"
+    t.integer "level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["attributes_type_id"], name: "index_dragon_attributes_on_attributes_type_id"
+    t.index ["dragon_id"], name: "index_dragon_attributes_on_dragon_id"
   end
 
   create_table "dragon_costs", force: :cascade do |t|
@@ -134,16 +151,6 @@ ActiveRecord::Schema.define(version: 2018_12_09_145918) do
     t.index ["user_id"], name: "index_resources_on_user_id"
   end
 
-  create_table "stats", force: :cascade do |t|
-    t.bigint "dragon_id"
-    t.integer "strength"
-    t.integer "perception"
-    t.integer "luck"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["dragon_id"], name: "index_stats_on_dragon_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -157,6 +164,8 @@ ActiveRecord::Schema.define(version: 2018_12_09_145918) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "dragon_attributes", "attributes_types"
+  add_foreign_key "dragon_attributes", "dragons"
   add_foreign_key "dragon_costs", "dragon_types"
   add_foreign_key "dragon_costs", "resource_types"
   add_foreign_key "dragons", "dragon_types"
@@ -170,5 +179,4 @@ ActiveRecord::Schema.define(version: 2018_12_09_145918) do
   add_foreign_key "foodtimes", "dragons"
   add_foreign_key "resources", "resource_types"
   add_foreign_key "resources", "users"
-  add_foreign_key "stats", "dragons"
 end

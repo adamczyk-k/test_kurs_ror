@@ -17,8 +17,9 @@ class Expedition < ApplicationRecord
   end
 
   def dragon_survive?
+    strength = dragon.get_attribute_by_name('Strength')
     survive_chance = rand(0..100)
-    survive_chance + (dragon.stat.strength / 10) >= DEATH_CHANCE
+    survive_chance + (strength.level / 10) >= DEATH_CHANCE
   end
 
   def kill_dragon

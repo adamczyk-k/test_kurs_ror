@@ -5,8 +5,8 @@ class FoodTimesController < ApplicationController
 
   def create
     @dragon = Dragon.find(params[:food_time][:dragon])
-    @attribute = params[:food_time][:stat]
-    flash[:alert] = FeedDragon.run!(dragon: @dragon, attribute: @attribute)
+    @attribute = AttributesType.find(params[:food_time][:attributes_type_id])
+    flash[:alert] = FeedDragon.run!(dragon: @dragon, attributes_type: @attribute)
 
     redirect_to dragons_teams_index_path(current_user.id)
   end

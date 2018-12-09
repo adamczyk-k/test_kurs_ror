@@ -25,12 +25,12 @@ class ClaimPrize < ActiveInteraction::Base
   def update_resource(prize)
     dragon = expedition.dragon
     user_amount = @resource.quantity
-    @resource.update_attribute(:quantity, user_amount + dragon.stat.add_bonus_from_perception(prize))
+    @resource.update_attribute(:quantity, user_amount + dragon.get_attribute_by_name('Perception').add_bonus_from_perception(prize))
   end
 
   def add_bonus_resource
     dragon = expedition.dragon
-    resource = dragon.stat.find_random_resource
+    resource = dragon.get_attribute_by_name('Luck').find_random_resource
     return if resource.nil?
 
     @resource = user.resources.find_by(id: resource)

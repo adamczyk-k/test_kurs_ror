@@ -12,12 +12,10 @@ p
   = @dragon.description
 p
   strong Attributes:
-  br
-  = "Strength: #{@dragon.stat.strength}"
-  br
-  = "Perception: #{@dragon.stat.perception}"
-  br
-  = "Luck: #{@dragon.stat.luck}"
+  - @attributes.each do |attribute|
+    p
+      = "#{attribute.attributes_type.name}: "
+      = attribute.level
 br
 = link_to 'Feed dragon', food_times_new_path(@dragon.id)
 br

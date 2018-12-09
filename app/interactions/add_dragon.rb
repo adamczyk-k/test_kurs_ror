@@ -4,9 +4,8 @@ class AddDragon < ActiveInteraction::Base
 
   def execute
     dragon.user = user
-    stat = Stat.new(dragon: dragon, strength: 0, luck: 0, perception: 0)
-    stat.save
     pay_for_dragon if dragon.save
+    create_attributes
   end
 
   def pay_for_dragon
@@ -15,6 +14,14 @@ class AddDragon < ActiveInteraction::Base
       user_resource = user.resources.find_by(resource_type: resource.resource_type.id)
       user_amount = user_resource.quantity
       user_resource.update_attribute(:quantity, user_amount - resource.cost)
+    end
+  end
+
+  def create_attributes
+    attributes_types = AttributesType.all
+    attributes_types.each do |type|
+      dragon_attribute = DragonAttribute.new(attributes_type: type, dragon: dragon, level: 0)
+      dragon_attribute.save
     end
   end
 end

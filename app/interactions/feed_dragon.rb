@@ -1,6 +1,6 @@
 class FeedDragon < ActiveInteraction::Base
   object :dragon
-  string :attribute
+  object :attributes_type
 
   def execute
     can_dragon_eat = can_dragon_eat?
@@ -12,14 +12,11 @@ class FeedDragon < ActiveInteraction::Base
   end
 
   def feed_dragon
-    level_up_stat = @dragon.stat.add_attribute(attribute)
-    if level_up_stat.empty?
-      "Stat #{attribute} doesn't exist"
-    else
-      food_time = FoodTime.new(dragon: @dragon, time: Time.now)
-      food_time.save
-      "You level up #{@dragon.name}'s #{level_up_stat[0]} to #{level_up_stat[1]}"
-    end
+    attribute = @dragon.get_attribute_by_type(attributes_type)
+    attribute.add_attribute
+    food_time = FoodTime.new(dragon: @dragon, time: Time.now)
+    food_time.save
+    "You level up #{@dragon.name}'s #{attribute.attributes_type.name} to #{attribute.level}"
   end
 
   def can_dragon_eat?
