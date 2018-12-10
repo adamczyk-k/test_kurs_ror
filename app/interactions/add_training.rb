@@ -4,7 +4,6 @@ class AddTraining < ActiveInteraction::Base
   object :training
 
   def execute
-    print "AAA #{@dragon.name} BBB #{@training.name}"
     training = DragonTraining.new(dragon_id: @dragon.id, training_id: @training.id, start_time: Time.now)
     pay_for_training if training.save
   end

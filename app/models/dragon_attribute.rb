@@ -10,8 +10,8 @@ class DragonAttribute < ApplicationRecord
     chance = rand(1..100)
     return nil if level < chance
 
-    choose_resource = rand(1..ResourceType.all.size)
-    ResourceType.find_by(id: choose_resource)
+    choose_resource = ResourceType.all.sample
+    ResourceType.find_by(id: choose_resource.id)
   end
 
   def add_attribute
