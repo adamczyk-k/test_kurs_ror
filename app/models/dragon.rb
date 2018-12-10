@@ -3,6 +3,7 @@ class Dragon < ApplicationRecord
   belongs_to :dragon_type, optional: true
   has_many :dragon_attribute, dependent: :destroy
   has_one :food_time, dependent: :destroy
+  has_one :expedition, dependent: :destroy
 
   def get_attribute_by_name(attribute)
     DragonAttribute.where(dragon: self, attributes_type: AttributesType.where(name: attribute)).first
