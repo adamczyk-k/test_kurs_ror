@@ -31,5 +31,9 @@ Rails.application.routes.draw do
   namespace :user do
     root to: 'profile#index'
   end
+
+  namespace :api do
+    get 'users/email_exists', to: 'users#email_exists'
+  end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
