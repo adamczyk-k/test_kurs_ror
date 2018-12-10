@@ -13,6 +13,9 @@ class FeedDragon < ActiveInteraction::Base
 
   def feed_dragon
     attribute = @dragon.get_attribute_by_type(attributes_type)
+    if attribute.nil?
+      attribute = @dragon.create_attribute(attributes_type)
+    end
     attribute.add_attribute
     food_time = FoodTime.new(dragon: @dragon, time: Time.now)
     food_time.save

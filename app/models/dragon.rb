@@ -24,6 +24,21 @@ class Dragon < ApplicationRecord
 
   def get_level_up(prize)
     attribute = get_attribute_by_type(prize.attributes_type)
+    if attribute.nil?
+      attribute = create_attribute(prize.attributes_type)
+    end
     attribute.update_attribute(:level, level + prize.quantity)
+  end
+
+  def create_attributes
+    attributes_types = AttributesType.all
+    attributes_types.each do |type|
+      create_attribute(type)
+    end
+  end
+
+  def create_attribute(attribute)
+    dragon_attribute = DragonAttribute.new(attributes_type: attribute, dragon: self, level: 0)
+    dragon_attribute.save
   end
 end
