@@ -1,4 +1,9 @@
 class Dragon < ApplicationRecord
+  include PgSearch
+  pg_search_scope :search, against: name,
+                           using: {
+                             tsearch: { prefix: true, dictionary: 'english' }
+                           }
   belongs_to :user, optional: true
   belongs_to :dragon_type, optional: true
   has_many :dragon_attribute, dependent: :destroy
