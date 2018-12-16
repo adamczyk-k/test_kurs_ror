@@ -1,7 +1,7 @@
 class DragonsTeamsController < ApplicationController
   def index
     @view_model = UserHomePageViewModel.new
-    @dragons = DragonsProvider.new(params[:key]).results unless params[:key].nil?
+    @dragons = DragonsProvider.new(current_user, params[:key]).results
   end
 
   def show

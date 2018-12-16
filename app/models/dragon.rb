@@ -1,6 +1,6 @@
 class Dragon < ApplicationRecord
   include PgSearch
-  pg_search_scope :search, against: "name",
+  pg_search_scope :search, against: 'name',
                            using: {
                              tsearch: { prefix: true, dictionary: 'english' }
                            }

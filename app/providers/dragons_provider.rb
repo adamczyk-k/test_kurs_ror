@@ -1,16 +1,15 @@
 class DragonsProvider
   attr_reader :results
 
-  def initialize(key)
-    @results = Dragon.all
+  def initialize(current_user, key)
+    @results = Dragon.where(user: current_user)
     filter_by_key(key)
   end
 
   def filter_by_key(key)
-    @results = if key.nil?
+    print "CCCC"
+    @results = if key == ''
                  @results
-               elsif key == ''
-                 []
                else
                  @results.search(key)
                end
