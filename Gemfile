@@ -4,8 +4,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.5.1'
 
 gem 'active_interaction', '~> 3.6'
-gem 'activeadmin'
 gem 'active_model_serializers', '~> 0.10.0'
+gem 'activeadmin'
 gem 'arbre'
 gem 'bootstrap'
 gem 'devise'
