@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get 'food_times/new'
   get 'trainings/index'
   get 'dragon_trainings/index'
+  get 'dragon_tombstones/index'
   root 'dragon_types#index'
 
   resources :dragons_teams
@@ -23,6 +24,7 @@ Rails.application.routes.draw do
   resources :food_times
   resources :trainings
   resources :dragon_trainings
+  resources :dragon_tombstones
 
   resources :expeditions
   resources :expedition_types

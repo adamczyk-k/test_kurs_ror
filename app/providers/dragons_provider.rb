@@ -7,7 +7,6 @@ class DragonsProvider
   end
 
   def filter_by_key(key)
-    print "CCCC"
     @results = if key == ''
                  @results
                else

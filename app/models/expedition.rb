@@ -23,7 +23,9 @@ class Expedition < ApplicationRecord
   end
 
   def kill_dragon
+    dead_dragon = DragonTombstone.create(dragon.attributes)
+    dead_dragon.update_attribute(:description, "Died #{Time.now} on expedition to #{expedition_type.name}")
+    dragon.destroy if dead_dragon.save
     destroy
-    dragon.destroy
   end
 end

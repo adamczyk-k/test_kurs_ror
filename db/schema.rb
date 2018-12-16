@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_09_211523) do
+ActiveRecord::Schema.define(version: 2018_12_16_214913) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,18 @@ ActiveRecord::Schema.define(version: 2018_12_09_211523) do
     t.index ["dragon_id"], name: "index_dragon_attributes_on_dragon_id"
   end
 
+  create_table "dragon_cemeteries", force: :cascade do |t|
+    t.string "name"
+    t.bigint "user_id"
+    t.bigint "dragon_id"
+    t.integer "level"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dragon_id"], name: "index_dragon_cemeteries_on_dragon_id"
+    t.index ["user_id"], name: "index_dragon_cemeteries_on_user_id"
+  end
+
   create_table "dragon_costs", force: :cascade do |t|
     t.bigint "dragon_type_id"
     t.bigint "resource_type_id"
@@ -66,6 +78,18 @@ ActiveRecord::Schema.define(version: 2018_12_09_211523) do
     t.datetime "updated_at", null: false
     t.index ["dragon_type_id"], name: "index_dragon_costs_on_dragon_type_id"
     t.index ["resource_type_id"], name: "index_dragon_costs_on_resource_type_id"
+  end
+
+  create_table "dragon_tombstones", force: :cascade do |t|
+    t.string "name"
+    t.bigint "user_id"
+    t.bigint "dragon_type_id"
+    t.integer "level"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dragon_type_id"], name: "index_dragon_tombstones_on_dragon_type_id"
+    t.index ["user_id"], name: "index_dragon_tombstones_on_user_id"
   end
 
   create_table "dragon_trainings", force: :cascade do |t|
@@ -204,8 +228,12 @@ ActiveRecord::Schema.define(version: 2018_12_09_211523) do
 
   add_foreign_key "dragon_attributes", "attributes_types"
   add_foreign_key "dragon_attributes", "dragons"
+  add_foreign_key "dragon_cemeteries", "dragons"
+  add_foreign_key "dragon_cemeteries", "users"
   add_foreign_key "dragon_costs", "dragon_types"
   add_foreign_key "dragon_costs", "resource_types"
+  add_foreign_key "dragon_tombstones", "dragon_types"
+  add_foreign_key "dragon_tombstones", "users"
   add_foreign_key "dragon_trainings", "dragons"
   add_foreign_key "dragon_trainings", "trainings"
   add_foreign_key "dragons", "dragon_types"
