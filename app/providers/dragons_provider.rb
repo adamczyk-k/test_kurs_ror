@@ -7,7 +7,7 @@ class DragonsProvider
   end
 
   def filter_by_key(key)
-    @results = if key == ''
+    @results = if key == '' || key.nil?
                  @results
                else
                  @results.search(key)
