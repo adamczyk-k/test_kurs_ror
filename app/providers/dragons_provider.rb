@@ -12,7 +12,7 @@ class DragonsProvider
                elsif key == ''
                  []
                else
-                 @results.where('lower(name) like ?', "%#{key.downcase}%")
+                 @results.search(key)
                end
   end
 end
