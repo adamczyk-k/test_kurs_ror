@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_18_135353) do
+ActiveRecord::Schema.define(version: 2018_12_09_211523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,23 @@ ActiveRecord::Schema.define(version: 2018_11_18_135353) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "attributes_types", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "dragon_attributes", force: :cascade do |t|
+    t.bigint "dragon_id"
+    t.bigint "attributes_type_id"
+    t.integer "level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["attributes_type_id"], name: "index_dragon_attributes_on_attributes_type_id"
+    t.index ["dragon_id"], name: "index_dragon_attributes_on_dragon_id"
+  end
+
   create_table "dragon_costs", force: :cascade do |t|
     t.bigint "dragon_type_id"
     t.bigint "resource_type_id"
@@ -49,6 +66,16 @@ ActiveRecord::Schema.define(version: 2018_11_18_135353) do
     t.datetime "updated_at", null: false
     t.index ["dragon_type_id"], name: "index_dragon_costs_on_dragon_type_id"
     t.index ["resource_type_id"], name: "index_dragon_costs_on_resource_type_id"
+  end
+
+  create_table "dragon_trainings", force: :cascade do |t|
+    t.bigint "dragon_id"
+    t.bigint "training_id"
+    t.datetime "start_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dragon_id"], name: "index_dragon_trainings_on_dragon_id"
+    t.index ["training_id"], name: "index_dragon_trainings_on_training_id"
   end
 
   create_table "dragon_types", force: :cascade do |t|
@@ -86,6 +113,7 @@ ActiveRecord::Schema.define(version: 2018_11_18_135353) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "longevity", default: 0
   end
 
   create_table "expeditions", force: :cascade do |t|
@@ -94,9 +122,26 @@ ActiveRecord::Schema.define(version: 2018_11_18_135353) do
     t.bigint "expedition_type_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "start_time"
     t.index ["dragon_id"], name: "index_expeditions_on_dragon_id"
     t.index ["expedition_type_id"], name: "index_expeditions_on_expedition_type_id"
     t.index ["user_id"], name: "index_expeditions_on_user_id"
+  end
+
+  create_table "food_times", force: :cascade do |t|
+    t.bigint "dragon_id"
+    t.datetime "time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dragon_id"], name: "index_food_times_on_dragon_id"
+  end
+
+  create_table "foodtimes", force: :cascade do |t|
+    t.bigint "dragon_id"
+    t.datetime "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dragon_id"], name: "index_foodtimes_on_dragon_id"
   end
 
   create_table "resource_types", force: :cascade do |t|
@@ -116,6 +161,34 @@ ActiveRecord::Schema.define(version: 2018_11_18_135353) do
     t.index ["user_id"], name: "index_resources_on_user_id"
   end
 
+  create_table "training_costs", force: :cascade do |t|
+    t.bigint "training_id"
+    t.bigint "resource_type_id"
+    t.integer "cost"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["resource_type_id"], name: "index_training_costs_on_resource_type_id"
+    t.index ["training_id"], name: "index_training_costs_on_training_id"
+  end
+
+  create_table "training_prizes", force: :cascade do |t|
+    t.bigint "training_id"
+    t.bigint "attributes_type_id"
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["attributes_type_id"], name: "index_training_prizes_on_attributes_type_id"
+    t.index ["training_id"], name: "index_training_prizes_on_training_id"
+  end
+
+  create_table "trainings", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "duration"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -129,8 +202,12 @@ ActiveRecord::Schema.define(version: 2018_11_18_135353) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "dragon_attributes", "attributes_types"
+  add_foreign_key "dragon_attributes", "dragons"
   add_foreign_key "dragon_costs", "dragon_types"
   add_foreign_key "dragon_costs", "resource_types"
+  add_foreign_key "dragon_trainings", "dragons"
+  add_foreign_key "dragon_trainings", "trainings"
   add_foreign_key "dragons", "dragon_types"
   add_foreign_key "dragons", "users"
   add_foreign_key "expedition_prizes", "expedition_types"
@@ -138,6 +215,12 @@ ActiveRecord::Schema.define(version: 2018_11_18_135353) do
   add_foreign_key "expeditions", "dragons"
   add_foreign_key "expeditions", "expedition_types"
   add_foreign_key "expeditions", "users"
+  add_foreign_key "food_times", "dragons"
+  add_foreign_key "foodtimes", "dragons"
   add_foreign_key "resources", "resource_types"
   add_foreign_key "resources", "users"
+  add_foreign_key "training_costs", "resource_types"
+  add_foreign_key "training_costs", "trainings"
+  add_foreign_key "training_prizes", "attributes_types"
+  add_foreign_key "training_prizes", "trainings"
 end

@@ -1,0 +1,13 @@
+= link_to root_path do
+  strong Back to main page
+
+h3
+  = "Dragons on trainings:"
+ul
+  - @trainings.each do |training|
+    p
+      = "#{training.dragon.name} - #{training.training.name} (ends at: #{training.start_time + training.training.duration.hour})"
+    p
+      = link_to 'Bring back', dragon_training_path(training),
+              method: :delete
+

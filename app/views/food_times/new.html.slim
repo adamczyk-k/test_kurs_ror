@@ -1,0 +1,10 @@
+= form_with scope: :food_time, url: food_times_path(@dragon), local: true do |food_time|
+  p
+    = food_time.label :"Choose one stat you want to level up:"
+    br
+    = food_time.select :attributes_type_id, collection: AttributesType.all.collect {|attribute_type| [attribute_type.name, attribute_type.id]}
+  p
+    = food_time.hidden_field :dragon, value: @dragon
+  p
+    = food_time.submit
+  = link_to 'Back', root_path

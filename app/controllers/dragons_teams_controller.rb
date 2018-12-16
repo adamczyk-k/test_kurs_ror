@@ -7,6 +7,7 @@ class DragonsTeamsController < ApplicationController
     @view_model = UserHomePageViewModel.new
     @user = current_user
     @dragon = @user.dragons.find(params[:id])
+    @attributes = DragonAttribute.where(dragon: @dragon)
   end
 
   def new

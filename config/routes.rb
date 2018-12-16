@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'dragon_trainings/new'
+  get 'trainings/index'
+  get 'food_times/new'
   devise_for :users
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
@@ -8,12 +11,18 @@ Rails.application.routes.draw do
   get 'dragons_teams/index'
   get 'resources/index'
   get 'expeditions/index'
+  get 'food_times/new'
+  get 'trainings/index'
+  get 'dragon_trainings/index'
   root 'dragon_types#index'
 
   resources :dragons_teams
   resources :dragon_types
   resources :resources
   resources :resource_types
+  resources :food_times
+  resources :trainings
+  resources :dragon_trainings
 
   resources :expeditions
   resources :expedition_types
@@ -21,6 +30,10 @@ Rails.application.routes.draw do
 
   namespace :user do
     root to: 'profile#index'
+  end
+
+  namespace :api do
+    get 'users/email_exists', to: 'users#email_exists'
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

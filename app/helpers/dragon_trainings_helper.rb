@@ -1,0 +1,2 @@
+module DragonTrainingsHelper
+end
