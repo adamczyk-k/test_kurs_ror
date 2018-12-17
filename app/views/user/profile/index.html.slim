@@ -25,6 +25,17 @@ ul
 	  p
 	    a href=resource_path(resource)
           = "#{resource.resource_type.name}: #{resource.quantity}"
+h3
+  = "Ranking: "
+ol
+  - @users.each do |usr|
+    li
+      = "#{usr.email} (#{usr.experience}) "
+      - (@number_o_ranks - usr.ranking + 1).times do
+        = fa_icon "star-o"
+      end
+      
+  
   
   
       
