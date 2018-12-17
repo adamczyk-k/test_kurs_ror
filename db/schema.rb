@@ -186,16 +186,6 @@ ActiveRecord::Schema.define(version: 2018_12_17_034123) do
     t.index ["user_id"], name: "index_resources_on_user_id"
   end
 
-  create_table "stats", force: :cascade do |t|
-    t.bigint "dragon_id"
-    t.integer "strength"
-    t.integer "perception"
-    t.integer "luck"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["dragon_id"], name: "index_stats_on_dragon_id"
-  end
-
   create_table "training_costs", force: :cascade do |t|
     t.bigint "training_id"
     t.bigint "resource_type_id"
