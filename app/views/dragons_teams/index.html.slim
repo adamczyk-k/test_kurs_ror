@@ -4,7 +4,7 @@
 h3
   = "#{current_user.email}'s dragons:"
 ul
-  - @view_model.dragons_team.each do |dragon|
+  - @dragons.each do |dragon|
     .col-sm-4
       p
         a href=dragons_team_path(dragon)

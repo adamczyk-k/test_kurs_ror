@@ -1,0 +1,12 @@
+h1 Choose training
+table
+  tr
+    th Training name
+    th Description
+    th Choose training
+    th
+  - @training_type.each do |training|
+    tr
+      td= training.name
+      td= training.name
+      td= link_to 'Choose training', dragon_trainings_new_path(training)
