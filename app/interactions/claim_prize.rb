@@ -9,10 +9,17 @@ class ClaimPrize < ActiveInteraction::Base
 
   def claim
     prize_resources = expedition.expedition_type.expedition_prizes
+    add_exp_to_user
     prize_resources.each do |prize_rsrc|
       add_basic_resource(prize_rsrc)
     end
     add_bonus_resource
+  end
+
+  def add_exp_to_user
+    exp_gain = expedition.expedition_type.experience
+    user_exp = user.experience
+    user.update_attribute(:experience, user_exp + exp_gain)
   end
 
   def add_resource(type)

@@ -3,11 +3,7 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
 	li.nav-item
       - if user_signed_in?
         a.nav-link.enabled data-method='get' href=user_root_path User panel
-        
-    li.nav-item
-      - if user_signed_in?
-        a.nav-link href=dragons_teams_index_path
-          | Dragons team
+       
     li.nav-item
       a.nav-link href=dragon_types_path
         | Dragon types
@@ -28,13 +24,9 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
         a.nav-link href=dragon_trainings_path
           | Dragons on trainings
     li.nav-item
-      - if user_signed_in?
-        a.nav-link href=resources_path
-          | Resources
-    li.nav-item
       a.nav-link href=resource_types_path
         | Resource types
-    
+        
     li.nav-item
       - if not user_signed_in?
         a.nav-link.enabled data-method='get' href=new_user_registration_path Sign up
