@@ -11,7 +11,9 @@ class Dragon < ApplicationRecord
   has_one :expedition, dependent: :destroy
 
   def get_attribute_by_name(attribute)
-    DragonAttribute.where(dragon: self, attributes_type: AttributesType.where(name: attribute)).first
+    attribute_by_name = DragonAttribute.where(dragon: self, attributes_type: AttributesType.where(name: attribute)).first
+    create_attribute(AttributesType.where(name: attribute).first) if attribute_by_name.nil?
+    DragonAttribute.where(dragon: self, attributes_type: AttributesType.where(name: attribute).first).first
   end
 
   def get_attribute_by_type(attribute)
@@ -43,5 +45,10 @@ class Dragon < ApplicationRecord
   def create_attribute(attribute)
     dragon_attribute = DragonAttribute.new(attributes_type: attribute, dragon: self, level: 0)
     dragon_attribute.save
+    dragon_attribute
+  end
+
+  def level_up(quantity)
+    update_attribute(:level, level + quantity)
   end
 end

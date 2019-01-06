@@ -14,10 +14,11 @@ class FeedDragon < ActiveInteraction::Base
   def feed_dragon
     attribute = @dragon.get_attribute_by_type(attributes_type)
     attribute = @dragon.create_attribute(attributes_type) if attribute.nil?
+    @dragon.level_up(1)
     attribute.add_attribute
     food_time = FoodTime.new(dragon: @dragon, time: Time.now)
     food_time.save
-    "You level up #{@dragon.name}'s #{attribute.attributes_type.name} to #{attribute.level}"
+    "You level up #{@dragon.name}'s #{attribute.attributes_type.name} to #{attribute.level}. Your dragon levels up by 1 level"
   end
 
   def can_dragon_eat?
