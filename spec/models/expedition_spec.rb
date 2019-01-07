@@ -13,7 +13,7 @@ RSpec.describe Expedition do
         expect(user.dragons.size).to eq(1)
         expedition.kill_dragon
         expect(DragonTombstone.all.size).to eq(1)
-        expect(user.dragons.size).to eq(1)
+        expect(user.dragons.size).to eq(0)
       end
     end
   end

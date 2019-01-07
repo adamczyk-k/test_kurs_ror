@@ -5,7 +5,7 @@ class CreateDragonTombstones < ActiveRecord::Migration[5.2]
       t.references :user, foreign_key: true
       t.references :dragon_type, foreign_key: true
       t.integer :level
-      t.text :cause_of_death
+      t.text :description
 
       t.timestamps
     end
