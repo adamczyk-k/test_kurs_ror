@@ -1,9 +1,16 @@
+p
+  strong Quest:
+  = "\"#{@expedition.expedition_type.name}\""
 p 
   strong Dragon:
   = @expedition.dragon.name
+  
 p
-  strong Name:
-  = @expedition.expedition_type.name
+  strong Start Time:
+  = @expedition.start_time
+p
+  strong End Time:
+  = @expedition.start_time + @expedition.expedition_type.longevity
 p
   strong Description:
   = @expedition.expedition_type.description
