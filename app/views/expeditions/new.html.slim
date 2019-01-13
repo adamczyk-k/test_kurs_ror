@@ -1,12 +1,9 @@
 = form_with scope: :expedition, url: expeditions_path, local: true do |expedition|
   p
-    = expedition.label :"What type of expedition, you want your dragons to go?"
+    = expedition.label :"Which dragon you want to send to #{@expedition_type.name}?"
+    = expedition.hidden_field :expedition_type_id, value: @expedition_type.id
     br
-    = expedition.select :expedition_type_id, collection: ExpeditionType.all.collect { |expeditiontype| [expeditiontype.name, expeditiontype.id] }
-  p
-    = expedition.label :"Which dragon you should sent?"
-    br
-    = expedition.select :dragon_id, collection: Dragon.where(user_id: @current_user).collect { |dragon| [dragon.name, dragon.id] }
+    = expedition.select :dragon_id, collection: Dragon.where(user_id: @current_user, level: @expedition_type.dragon_level..Float::INFINITY).collect { |dragon| [dragon.name, dragon.id] }
   p
     = expedition.submit
   = link_to 'Back', expeditions_path(@expedition)

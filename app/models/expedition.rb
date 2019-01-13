@@ -3,17 +3,17 @@ class Expedition < ApplicationRecord
   belongs_to :dragon, optional: true
   belongs_to :expedition_type, optional: true
 
-  DEATH_CHANCE = 5
+  DEATH_CHANCE = 0
 
   def resolve_expedition
     if dragon_survive?
-      ClaimPrize.run!(user: user, expedition: self)
+      alert = ClaimPrize.run!(user: user, expedition: self)
       ''
     else
       alert = "Your dragon #{dragon.name} didn't survive expedition to #{expedition_type.name}"
       kill_dragon
-      alert
     end
+    alert
   end
 
   def dragon_survive?

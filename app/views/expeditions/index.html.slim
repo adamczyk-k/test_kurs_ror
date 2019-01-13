@@ -13,5 +13,42 @@ ul
         = link_to_if expd.start_time + expd.expedition_type.longevity < DateTime.now, 'Bring back', expedition_path(expd),
                 method: :delete,
                 data: { confirm: 'Are you sure?' } 
-  = button_to "Form new expedition", { :action => "new" }, :method => :get
-      
+
+h3
+  = "Create new expedition"
+br
+  = "Available expeditions for level #{@current_user.level} "
+table.table
+  thead
+    tr
+      th Expedition
+      th Description
+      th Minimum dragon level
+      th Create
+      th
+    - @expedition_types.each do |expedition|
+      tr
+        td= expedition.name
+        td= expedition.description
+        td= expedition.dragon_level
+        td= link_to 'Show', expedition_type_path(expedition)
+        td= link_to 'Form new expedition', new_expedition_path(expedition)
+
+br
+h3
+  = "Unavailable expeditions"
+
+table.table
+  thead
+    tr
+      th Expedition
+      th Description
+      th Minimum dragon level
+      th Level for unlocking
+      th
+    - @expedition_blocked.each do |expedition|
+      tr
+        td= expedition.name
+        td= expedition.description
+        td= expedition.dragon_level
+        td= expedition.user_level

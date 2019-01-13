@@ -42,6 +42,13 @@ class User < ApplicationRecord
     dragons.count >= DRAGONS_LIMIT
   end
 
+  def level
+    if experience.zero?
+      return 0
+    end
+    Math.log(experience/100).floor
+  end
+
   private
 
   # @param object_cost_resource [DragonCost/TrainingCost]
