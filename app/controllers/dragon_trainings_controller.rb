@@ -12,12 +12,12 @@ class DragonTrainingsController < ApplicationController
   end
 
   def destroy
-    flash[:alert] = resolve_expedition
+    flash[:alert] = resolve_training
 
-    redirect_to dragon_trainings_index_path(current_user.id)
+    redirect_to user_root_path(current_user.id)
   end
 
-  def resolve_expedition
+  def resolve_training
     @training = DragonTraining.find(params[:id])
     @dragon = @training.dragon
     if @training.ended?
@@ -34,12 +34,12 @@ class DragonTrainingsController < ApplicationController
     training = Training.find(params[:format])
     process_training_creation(dragon, training)
 
-    redirect_to dragons_teams_index_path(current_user.id)
+    redirect_to trainings_index_path(current_user.id)
   end
 
   def process_training_creation(dragon, training)
     if !DragonTraining.find_by(dragon: dragon).nil?
-      flash[:alert] = "#{dragon.name} is already on training"
+      flash[:alert] = "#{dragon.name} is already on training, choose another dragon"
     elsif !current_user.can_afford?(training)
       flash[:alert] = current_user.missing_resources_for_error(training)
     else

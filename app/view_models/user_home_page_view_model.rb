@@ -14,4 +14,9 @@ class UserHomePageViewModel
   def expeditions
     @expedition = Expedition.where(user: @current_user.id)
   end
+
+  def trainings
+    dragons = current_user.dragons
+    @trainings = DragonTraining.where(dragon: dragons)
+  end
 end

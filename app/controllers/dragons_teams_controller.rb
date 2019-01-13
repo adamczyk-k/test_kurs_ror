@@ -23,13 +23,13 @@ class DragonsTeamsController < ApplicationController
     dragon_type = DragonType.find(params[:dragons_team][:dragon_type_id])
     process_dragon_creation(dragon_type)
 
-    redirect_to dragons_teams_index_path(current_user.id)
+    redirect_to user_root_path(current_user.id)
   end
 
   def destroy
     @dragon = Dragon.find(params[:id])
     @dragon.destroy
-    redirect_to dragons_teams_index_path(current_user.id)
+    redirect_to user_root_path(current_user.id)
   end
 
   private
