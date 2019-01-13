@@ -17,11 +17,7 @@ class ExpeditionsController < ApplicationController
 
   def create
     @dragon = params[:expedition][:dragon_id]
-    if Expedition.where(dragon_id: @dragon).empty?
-      flash[:alert] = create_expedition
-    else
-      flash[:alert] = "#{current_user.dragons.where(id: @dragon).name}'s already on the expedition"
-    end
+    flash[:alert] = resolve_expedition
     redirect_to expeditions_index_path(current_user.id)
   end
 
@@ -33,6 +29,14 @@ class ExpeditionsController < ApplicationController
   end
 
   private
+
+  def resolve_expedition
+    if Expedition.where(dragon_id: @dragon).empty?
+      create_expedition
+    else
+      "#{current_user.dragons.where(id: @dragon).name}'s already on the expedition"
+    end
+  end
 
   def create_expedition
     @expedition = current_user.expeditions.build(expedition_params)

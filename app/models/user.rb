@@ -43,10 +43,9 @@ class User < ApplicationRecord
   end
 
   def level
-    if experience.zero?
-      return 0
-    end
-    Math.log(experience/100).floor
+    return 0 if experience.zero?
+
+    Math.log(experience / 100).floor
   end
 
   private

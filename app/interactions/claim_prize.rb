@@ -10,14 +10,20 @@ class ClaimPrize < ActiveInteraction::Base
 
   def claim
     prize = 'Your prize: '
-    prize_resources = expedition.expedition_type.expedition_prizes
     prize += "Experience: #{add_exp_to_user} "
-    prize_resources.each do |prize_rsrc|
-      res_prize = add_basic_resource(prize_rsrc)
-      prize += ", #{res_prize[1]} #{res_prize[0].name} "
-    end
+    prize += basic_prize
     bonus_res = add_bonus_resource
-    prize += "#{bonus_res[1]} #{bonus_res[0].name}" unless bonus_res.nil?
+    prize += "#{bonus_res[1]} #{bonus_res[0].resource_type.name}" unless bonus_res.nil?
+    prize
+  end
+
+  def basic_prize
+    prize = ''
+    prize_resources = @expedition.expedition_type.expedition_prizes
+    prize_resources.each do |prize_rsrc|
+      add_basic_resource(prize_rsrc)
+      prize += ", #{prize_rsrc.prize} #{prize_rsrc.resource_type.name} "
+    end
     prize
   end
 
@@ -58,6 +64,5 @@ class ClaimPrize < ActiveInteraction::Base
     @resource = user.resources.find_by(resource_type: prize_rsrc.resource_type.id)
     add_resource(prize_rsrc.resource_type) if @resource.nil?
     update_resource(prize_rsrc.prize)
-    [@resource, prize_rsrc]
   end
 end
