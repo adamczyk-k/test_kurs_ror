@@ -18,7 +18,7 @@ RSpec.describe ExpeditionsController, type: :controller do
     subject { post :create, params: { expedition: { dragon_id: dragon.id, expedition_type_id: expedition_type.id, start_time: Time.now } } }
     it do
       expect { subject }.to change { Expedition.all.size }.by(1)
-      expect(flash[:notice]).to eq('You sent Expedition!')
+      expect(flash[:alert]).to eq('You sent Expedition!')
     end
   end
 end
