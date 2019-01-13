@@ -4,7 +4,7 @@
 h3
   = "Expeditions:"
 ul
-  - @current_user.expeditions.each do |expd| 
+  - @current_user.expeditions.each do |expd|
     .col-sm-6
       p
         a href=expedition_path(expd)
