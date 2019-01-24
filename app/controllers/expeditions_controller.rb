@@ -16,7 +16,7 @@ class ExpeditionsController < ApplicationController
   end
 
   def create
-    @dragon = params[:expedition][:dragon_id]
+    @dragon = Dragon.find(params[:expedition][:dragon_id])
     flash[:alert] = resolve_expedition
     redirect_to expeditions_index_path(current_user.id)
   end

@@ -20,7 +20,7 @@ RSpec.describe DragonTrainingsController do
       let!(:dragon_training) { FactoryBot.create :dragon_training, training: training, dragon: dragon }
       it do
         expect { subject }.to change { DragonTraining.all.size }.by(0)
-        expect(flash[:alert]).to eq("#{dragon.name} is already on training, choose another dragon")
+        expect(flash[:alert]).to eq("#{dragon.name}'s already on the training")
       end
     end
 
