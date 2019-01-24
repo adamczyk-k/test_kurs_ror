@@ -31,10 +31,11 @@ class ExpeditionsController < ApplicationController
   private
 
   def resolve_expedition
-    if Expedition.where(dragon_id: @dragon).empty?
+    assignment = @dragon.busy?
+    if assignment.empty?
       create_expedition
     else
-      "#{current_user.dragons.where(id: @dragon).name}'s already on the expedition"
+      assignment
     end
   end
 
