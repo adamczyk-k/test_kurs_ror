@@ -51,4 +51,14 @@ class Dragon < ApplicationRecord
   def level_up(quantity)
     update_attribute(:level, level + quantity)
   end
+
+  def busy?
+    assignment = ''
+    if !Expedition.where(dragon_id: self).empty?
+      assignment = "#{name}'s already on the expedition"
+    elsif !DragonTraining.where(dragon_id: self).empty?
+      assignment = "#{name}'s already on the training"
+    end
+    assignment
+  end
 end

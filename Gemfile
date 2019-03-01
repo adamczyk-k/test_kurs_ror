@@ -47,6 +47,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'active_admin_datetimepicker'
 gem 'font-awesome-rails'
+gem 'mini_magick'
 gem 'sidekiq'
 
 group :development, :test do

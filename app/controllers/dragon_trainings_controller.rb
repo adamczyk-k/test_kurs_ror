@@ -30,20 +30,28 @@ class DragonTrainingsController < ApplicationController
   end
 
   def create
-    dragon = Dragon.find(params[:dragon_trainings][:dragon_id])
-    training = Training.find(params[:format])
-    process_training_creation(dragon, training)
+    @dragon = Dragon.find(params[:dragon_trainings][:dragon_id])
+    @training = Training.find(params[:format])
+    training_creation_result = process_expedition
+    flash[:alert] = training_creation_result unless training_creation_result.empty?
 
     redirect_to trainings_index_path(current_user.id)
   end
 
-  def process_training_creation(dragon, training)
-    if !DragonTraining.find_by(dragon: dragon).nil?
-      flash[:alert] = "#{dragon.name} is already on training, choose another dragon"
-    elsif !current_user.can_afford?(training)
-      flash[:alert] = current_user.missing_resources_for_error(training)
+  def process_expedition
+    assignment = @dragon.busy?
+    if assignment.empty?
+      create_expedition
     else
-      AddTraining.run!(user: current_user, dragon: dragon, training: training)
+      assignment
+    end
+  end
+
+  def create_expedition
+    if !current_user.can_afford?(@training)
+      current_user.missing_resources_for_error(@training)
+    else
+      AddTraining.run!(user: current_user, dragon: @dragon, training: @training)
     end
   end
 end
