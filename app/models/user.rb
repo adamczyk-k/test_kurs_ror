@@ -10,29 +10,29 @@ class User < ApplicationRecord
 
   DRAGONS_LIMIT = 5
 
-  # @param dragon_type [DragonType]
+  # @param object_type [DragonType/DragonAttribute]
   # @return [Boolean]
-  def can_afford?(dragon_type)
-    missing_resources_for(dragon_type).empty?
+  def can_afford?(object_type)
+    missing_resources_for(object_type).empty?
   end
 
-  # @param dragon_type [DragonType]
+  # @param object_type [DragonType/DragonAttribute]
   # @return [Array<Hash>]
-  def missing_resources_for(dragon_type)
+  def missing_resources_for(object_type)
     missing_resources = []
-    dragon_type.resources_amount.each do |dragon_cost_resource|
-      unless missing_quantity_of(dragon_cost_resource).nil?
-        missing_resources << missing_quantity_of(dragon_cost_resource)
+    object_type.resources_amount.each do |object_cost_resource|
+      unless missing_quantity_of(object_cost_resource).nil?
+        missing_resources << missing_quantity_of(object_cost_resource)
       end
     end
     missing_resources
   end
 
-  # @param dragon_type [DragonType]
+  # @param dragon_type [DragonType/DragonAttribute]
   # @return String
-  def missing_resources_for_error(dragon_type)
+  def missing_resources_for_error(object_type)
     missing_resources = 'Lacking resources: '
-    missing_resources_for(dragon_type).map do |missing_resource|
+    missing_resources_for(object_type).map do |missing_resource|
       missing_resources += "#{missing_resource[:quantity]} #{missing_resource[:resource].resource_type.name} "
     end
     missing_resources
@@ -42,16 +42,22 @@ class User < ApplicationRecord
     dragons.count >= DRAGONS_LIMIT
   end
 
+  def level
+    return 0 if experience.zero?
+
+    Math.log(experience / 100).floor
+  end
+
   private
 
-  # @param dragon_cost_resource [DragonCost]
-  # @return [nil, Hash<resource: DragonCost, quantity: Integer>]
-  def missing_quantity_of(dragon_cost_resource)
-    user_amount = resources.find_by(resource_type: dragon_cost_resource.resource_type.id)
+  # @param object_cost_resource [DragonCost/TrainingCost]
+  # @return [nil, Hash<resource: DragonCost/TrainingCost, quantity: Integer>]
+  def missing_quantity_of(object_cost_resource)
+    user_amount = resources.find_by(resource_type: object_cost_resource.resource_type.id)
     if user_amount.nil?
-      { resource: dragon_cost_resource, quantity: dragon_cost_resource.cost }
-    elsif user_amount.quantity < dragon_cost_resource.cost
-      { resource: dragon_cost_resource, quantity: dragon_cost_resource.cost - user_amount.quantity }
+      { resource: object_cost_resource, quantity: object_cost_resource.cost }
+    elsif user_amount.quantity < object_cost_resource.cost
+      { resource: object_cost_resource, quantity: object_cost_resource.cost - user_amount.quantity }
     end
   end
 end

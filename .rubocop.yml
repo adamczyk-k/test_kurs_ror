@@ -12,6 +12,7 @@ Style/FrozenStringLiteralComment:
 Metrics/BlockLength:
   Exclude:
   - 'spec/**/*.rb'
+  - 'config/routes.rb'
 Metrics/MethodLength:
   Max: 20
   Exclude:

@@ -1,14 +1,12 @@
 h1 Listing all dragon types
-table
-  tr
-    th Dragon type
-    th Description
-    th More information
-    th Add new dragon
-    th
+
+table.table
   - @dragon_type.each do |dragon|
     tr
-      td= dragon.name
-      td= dragon.description
-      td= link_to 'Show', dragon_type_path(dragon)
-      td= link_to 'Add', new_dragons_team_path(dragon)
+      td= image_tag dragon.thumbnail.variant(resize: "50x50")
+      td
+        = "#{dragon.name}"
+      td
+        = link_to 'Show more', dragon_type_path(dragon)
+      td
+        = link_to 'Add', new_dragons_team_path(dragon)

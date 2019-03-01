@@ -4,7 +4,10 @@ class AddDragon < ActiveInteraction::Base
 
   def execute
     dragon.user = user
-    pay_for_dragon if dragon.save
+    return unless dragon.save
+
+    pay_for_dragon
+    dragon.create_attributes
   end
 
   def pay_for_dragon

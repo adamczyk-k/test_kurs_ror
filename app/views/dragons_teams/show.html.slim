@@ -1,4 +1,6 @@
 p
+  = image_tag @dragon.dragon_type.thumbnail.variant(resize: "150x150")
+p
   strong Name:
   = @dragon.name
 p
@@ -10,5 +12,13 @@ p
 p
   strong Description:
   = @dragon.description
+p
+  strong Attributes:
+  - @attributes.each do |attribute|
+    p
+      = "#{attribute.attributes_type.name}: "
+      = attribute.level
+br
+= link_to 'Feed dragon', food_times_new_path(@dragon.id)
 br
 = link_to 'Back', root_path

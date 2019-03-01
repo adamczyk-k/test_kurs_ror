@@ -3,32 +3,22 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
 	li.nav-item
       - if user_signed_in?
         a.nav-link.enabled data-method='get' href=user_root_path User panel
-        
-    li.nav-item
-      - if user_signed_in?
-        a.nav-link href=dragons_teams_index_path
-          | Dragons team
+
     li.nav-item
       a.nav-link href=dragon_types_path
         | Dragon types
-    
     li.nav-item
       - if user_signed_in?
         a.nav-link href=expeditions_path
           | Expeditions
     li.nav-item
       - if user_signed_in?
-        a.nav-link href=expedition_types_path
-          | Expedition types
-          
-    li.nav-item
-      - if user_signed_in?
-        a.nav-link href=resources_path
-          | Resources
+        a.nav-link href=trainings_index_path
+          | Trainings
     li.nav-item
       a.nav-link href=resource_types_path
         | Resource types
-    
+        
     li.nav-item
       - if not user_signed_in?
         a.nav-link.enabled data-method='get' href=new_user_registration_path Sign up
@@ -38,3 +28,10 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
     li.nav-item
       - if user_signed_in?
         a.nav-link.disabled data-method='delete' href=destroy_user_session_path Logout
+    - if user_signed_in?
+      form.form-inline.my-2.my-lg-0.search-form action=dragons_teams_index_path
+        input.main-search.form-control.mr-sm-2 type="search" placeholder="Search" aria-label="Search" name='key'
+        button class="btn btn-outline-white my-2 my-sm-0" type="submit"
+          | Search
+        .search-results
+          ul

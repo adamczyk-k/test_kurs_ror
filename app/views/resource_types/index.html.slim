@@ -1,11 +1,11 @@
 h1 Listing all resource types
-table
-  tr
-    th Resource type
-    th Description
-    th
+
+table.table
   - @resource_type.each do |resource|
     tr
-      td= resource.name
-      td= resource.description
+      td= image_tag resource.thumbnail.variant(resize: "50x50")
+      td
+        = "#{resource.name}"
+      td
+        = "#{resource.description}"
       td= link_to 'Show', resource_type_path(resource)
